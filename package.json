@@ -1,0 +1,11 @@
+{
+  "name": "nutrition-check",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bv20ia3t10p/nutrition-check.git",
+  "author": "Phạm Trọng Phúc <94206242+bv20ia3t10p@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "hardhat": "^2.12.5"
+  }
+}
