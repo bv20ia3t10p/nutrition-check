@@ -19,7 +19,8 @@ const getListOfItemsToInspect = async (setBatchesToInspect) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ins, insApi, signer)
-    setBatchesToInspect(await contract.getAllBatchesToInspect)
+    const batches = await contract.getAllBatchesToInspect()
+    setBatchesToInspect(batches)
   } catch (e) {
     alert(e)
   }
@@ -62,14 +63,12 @@ const addBatch = async (
     }
   }
 }
-const viewBatch = async (setCurrentBatch) => {
+const viewBatch = async (address, setCurrentBatch) => {
   if (typeof window.ethereum) {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(ins, insApi, signer)
     try {
-      const batchAddress = await contract.getBatchAtIndex(1)
-      const contract2 = new ethers.Contract(batchAddress, batchApi, signer)
+      const contract2 = new ethers.Contract(address, batchApi, signer)
       const resp = await contract2.getStat(0)
       const formattedData = resp.map((n) => {
         if (n._isBigNumber) {
@@ -101,6 +100,7 @@ const batchInfoToJsonString = (batchInfo) =>
 function App() {
   const [currentBatch, setCurrentBatch] = useState([])
   const [batchesToInspect, setBatchesToInspect] = useState([])
+  const [selectedBatch, setSelectedBatch] = useState(0)
   const [inspectedBatches, setInspectedBatches] = useState([])
   const [batchToAdd, setBatchToAdd] = useState({
     name: '',
@@ -120,11 +120,12 @@ function App() {
         <div className="connect-wallet">
           <button onClick={() => connect()}>Connect</button>
         </div>
-        <div className="view-batch">
-          <button onClick={() => viewBatch(setCurrentBatch)}>View batch</button>
+        <div>
+          <button onClick={() => getListOfItemsToInspect(setBatchesToInspect)}>
+            View batches
+          </button>
         </div>
         <div className="qr-code">
-          <button>Generate QR</button>
           <QRCodeSVG value={batchInfoToJsonString(currentBatch)} />
         </div>
         {Object.keys(batchToAdd).map((n, index) => (
@@ -137,7 +138,26 @@ function App() {
           />
         ))}
         <div className="create-batch">
-          <button onClick={() => addBatch(...batchToAdd)}>Create batch</button>
+          <button onClick={() => addBatch(...Object.values(batchToAdd))}>
+            Create batch
+          </button>
+        </div>
+        <div className="batches">
+          {batchesToInspect.length && (
+            <div className="uninspected">
+              {batchesToInspect.map((n, index) => (
+                <div
+                  onClick={() => {
+                    setSelectedBatch(index)
+                    viewBatch(batchesToInspect[index], setCurrentBatch)
+                  }}
+                  key={index}
+                >
+                  {n}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </header>
     </div>
