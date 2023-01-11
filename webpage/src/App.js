@@ -1,8 +1,9 @@
-import { insApi, batchApi, ins } from "./contractInfos";
+import { insApi, batchApi, ins } from './contractInfos'
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import { QRCodeSVG } from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react'
 
+// Connect with metamask
 const connect = async () => {
   if (typeof window.ethereum) {
     window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -11,20 +12,51 @@ const connect = async () => {
   }
 }
 
-//To put floating point values onto the blockchain
-const formatNumber = (n) => ethers.utils.parseEther(n);
+// Get all batches to inspect
+const getListOfItemsToInspect = async (setBatchesToInspect) => {
+  try {
+    if (!typeof window.ethereum) throw new Error('Please install metamask')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(ins, insApi, signer)
+    setBatchesToInspect(await contract.getAllBatchesToInspect)
+  } catch (e) {
+    alert(e)
+  }
+}
 
-const addBatch = async () => {
+//To put floating point values onto the blockchain
+const formatNumber = (n) => ethers.utils.parseEther(`${n}`)
+
+const addBatch = async (
+  name,
+  energy,
+  protein,
+  carbohydrate,
+  totalSugar,
+  fat,
+  saturatedFat,
+  natri,
+  productionDate, // String dd-mm-yyyy
+  expiryDate, // String dd-mm-yyyy
+) => {
   if (typeof window.ethereum) {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ins, insApi, signer)
     try {
-      await contract.addBatch("Milk",
-        formatNumber('10'), formatNumber('20'),
-        formatNumber('30'), formatNumber('40'),
-        formatNumber('50'), formatNumber('60'),
-        formatNumber('70'), '20-03-2002', '20-03-2100')
+      await contract.addBatch(
+        name,
+        formatNumber(energy),
+        formatNumber(protein),
+        formatNumber(carbohydrate),
+        formatNumber(totalSugar),
+        formatNumber(fat),
+        formatNumber(saturatedFat),
+        formatNumber(natri),
+        productionDate,
+        expiryDate,
+      )
     } catch (error) {
       console.log(error)
     }
@@ -36,18 +68,18 @@ const viewBatch = async (setCurrentBatch) => {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ins, insApi, signer)
     try {
-      const batchAddress = await contract.getBatchAtIndex(1);
+      const batchAddress = await contract.getBatchAtIndex(1)
       const contract2 = new ethers.Contract(batchAddress, batchApi, signer)
-      const resp = await contract2.getStat(0);
+      const resp = await contract2.getStat(0)
       const formattedData = resp.map((n) => {
         if (n._isBigNumber) {
           return ethers.utils.formatEther(n)
         }
-        return n;
+        return n
       })
-      console.log(resp);
-      console.log(formattedData);
-      setCurrentBatch(formattedData);
+      console.log(resp)
+      console.log(formattedData)
+      setCurrentBatch(formattedData)
     } catch (error) {
       console.log(error)
     }
@@ -68,14 +100,25 @@ const batchInfoToJsonString = (batchInfo) =>
 
 function App() {
   const [currentBatch, setCurrentBatch] = useState([])
+  const [batchesToInspect, setBatchesToInspect] = useState([])
+  const [inspectedBatches, setInspectedBatches] = useState([])
+  const [batchToAdd, setBatchToAdd] = useState({
+    name: '',
+    energy: 0,
+    protein: 0,
+    carbohydrate: 0,
+    totalSugar: 0,
+    fat: 0,
+    saturatedFat: 0,
+    natri: 0,
+    productionDate: 'Not specified',
+    expiryDate: 'Not specified',
+  })
   return (
     <div className="App">
       <header className="App-header">
         <div className="connect-wallet">
           <button onClick={() => connect()}>Connect</button>
-        </div>
-        <div className="create-batch">
-          <button onClick={() => addBatch()}>Create batch</button>
         </div>
         <div className="view-batch">
           <button onClick={() => viewBatch(setCurrentBatch)}>View batch</button>
@@ -84,9 +127,36 @@ function App() {
           <button>Generate QR</button>
           <QRCodeSVG value={batchInfoToJsonString(currentBatch)} />
         </div>
+        {Object.keys(batchToAdd).map((n, index) => (
+          <InputField
+            key={index}
+            label={n}
+            state={batchToAdd}
+            setState={setBatchToAdd}
+            property={n}
+          />
+        ))}
+        <div className="create-batch">
+          <button onClick={() => addBatch(...batchToAdd)}>Create batch</button>
+        </div>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+const InputField = ({ label, state, setState, property }) => {
+  return (
+    <div className="input-field">
+      <span>{label}: </span>
+      <input
+        type="text"
+        value={state[`${property}`]}
+        onChange={(e) =>
+          setState({ ...state, [`${property}`]: e.target.value })
+        }
+      />
+    </div>
+  )
+}
+
+export default App

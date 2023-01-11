@@ -1,8 +1,7 @@
-// SPDX-License-Indentifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
 contract Batch {
-    string public name;
     // Batch item is added and assigned inspector at the same time
     // For this development purpose, it'll be the account that create the contract
     address public immutable inspector;
@@ -13,6 +12,7 @@ contract Batch {
         _;
     }
     struct foodStat {
+        string name;
         uint256 energy; // In Kcal / KJ
         uint256 protein; // g
         uint256 carbohydrate; // g
@@ -52,7 +52,7 @@ contract Batch {
         string memory i_expiryDate
     ) {
         inspector = i_inspector;
-        name = i_name;
+        suppliedStat.name = i_name;
         suppliedStat.energy = i_energy;
         suppliedStat.protein = i_protein;
         suppliedStat.carbohydrate = i_carbohydrate;
@@ -90,6 +90,7 @@ contract Batch {
         string memory i_expiryDate,
         string memory i_inspectedDate
     ) public onlyInspector {
+        inspectedStat.name = suppliedStat.name;
         inspectedStat.energy = i_energy;
         inspectedStat.protein = i_protein;
         inspectedStat.carbohydrate = i_carbohydrate;
