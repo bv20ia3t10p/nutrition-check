@@ -98,7 +98,7 @@ const Inspector = () => {
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [selectedBatch, setSelectedBatch] = useState([])
   const [currentBatch, setCurrentBatch] = useState()
-  const [isChangedColor, setIsChangedColor] = useState(false)
+  // const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
     energy: 0,
     protein: 0,
@@ -153,12 +153,12 @@ const Inspector = () => {
   if (isLoading) return <div className="">Loading list of batches</div>
   return (
     <div className="inspector">
-      <button
+      {/* <button
         onClick={() => setIsChangedColor(!isChangedColor)}
         className={`${isChangedColor ? 'green-btn' : 'blue-button'}`}
       >
         Button
-      </button>
+      </button> */}
       <div className="batches">
         <h1>Batches to inspect</h1>
         {batchesToInspect.length &&
@@ -227,7 +227,7 @@ const Inspector = () => {
             id="qrcode"
             value={JSON.stringify(outputData)}
             // level="H"
-            size={500}
+            size={300}
           />
         </div>
       )}

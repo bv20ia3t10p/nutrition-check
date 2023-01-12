@@ -75,12 +75,15 @@
     @apply text-3xl;
     @apply tracking-widest;
   }
-  .green-btn {
-    @apply h-[10vh];
-    @apply bg-green-900;
+  input {
+    @apply bg-blue-100;
+    @apply border-2;
+    @apply border-blue-500;
+    @apply text-indigo-900;
   }
-  .blue-button {
-    @apply h-[10vh];
-    @apply bg-blue-900;
-  }
+}
+
+button {
+  background-color: aqua;
+  border-radius: 30%;
 }
