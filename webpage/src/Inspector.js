@@ -12,6 +12,7 @@ import { insApi, batchApi, ins } from './contractInfos'
 import { ethers } from 'ethers'
 import canvasToImage from 'canvas-to-image'
 import { QRCodeCanvas } from 'qrcode.react'
+import { ConnectPage } from './Customer'
 
 const inspect = async (
   address,
@@ -97,6 +98,7 @@ const Inspector = () => {
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [selectedBatch, setSelectedBatch] = useState([])
   const [currentBatch, setCurrentBatch] = useState()
+  // const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
     energy: 0,
     protein: 0,
@@ -140,11 +142,6 @@ const Inspector = () => {
     viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
     getStatChecks(inspectedBatches[selectedInspected], setOutputData)
   }, [isConnected, inspectedBatches, selectedInspected])
-  const handleClickConnect = async () => {
-    const resp = await connect()
-    console.log(resp)
-    if (resp) setIsConnected(true)
-  }
   const handleInspect = async () => {
     const resp = await inspect(
       batchesToInspect[selectedBatch],
@@ -152,22 +149,16 @@ const Inspector = () => {
     )
     if (resp) alert('Success')
   }
-  if (!isConnected)
-    return (
-      <div>
-        <h1>Please first connect to metamask</h1>
-        <button
-          onClick={async () => {
-            await handleClickConnect()
-          }}
-        >
-          Connect
-        </button>
-      </div>
-    )
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
   if (isLoading) return <div className="">Loading list of batches</div>
   return (
     <div className="inspector">
+      {/* <button
+        onClick={() => setIsChangedColor(!isChangedColor)}
+        className={`${isChangedColor ? 'green-btn' : 'blue-button'}`}
+      >
+        Button
+      </button> */}
       <div className="batches">
         <h1>Batches to inspect</h1>
         {batchesToInspect.length &&
@@ -191,6 +182,12 @@ const Inspector = () => {
       )}
       <div className="inspected-stat">
         <h1>Stats from inspectation</h1>
+        {/* <InputField
+          label="Product name"
+          state={inspectInfo}
+          setState={setInspectInfo}
+          property={inspectInfo.name}
+        /> */}
         {Object.keys(inspectInfo).map((n, index) => (
           <InputField
             key={index}
@@ -230,7 +227,7 @@ const Inspector = () => {
             id="qrcode"
             value={JSON.stringify(outputData)}
             // level="H"
-            size={500}
+            size={300}
           />
         </div>
       )}
