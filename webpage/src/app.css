@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  .navbar {
+    @apply absolute;
+    @apply w-full;
+    @apply justify-evenly;
+    @apply h-[10vh];
+    @apply text-xs;
+    @apply bg-blue-500;
+    @apply grid;
+    @apply grid-cols-[1fr_repeat(3,10%)];
+    @apply text-center;
+    @apply text-3xl;
+    /* @apply flex; */
+    @apply justify-evenly;
+    @apply items-center;
+    @apply gap-x-8;
+    @apply pr-24;
+  }
+  .navbar > * {
+    @apply text-white;
+    @apply bg-white;
+    @apply text-blue-500;
+    @apply mt-[2vh];
+    @apply h-[8vh];
+    @apply rounded-t-xl;
+    @apply text-center;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply w-[10vw];
+  }
+  .navbar .title {
+    @apply w-full;
+    @apply bg-blue-500;
+    @apply text-white;
+    @apply font-semibold;
+    @apply tracking-widest;
+    @apply uppercase;
+    @apply text-4xl;
+  }
+  .content {
+    @apply pt-[10vh];
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply h-[90vh];
+  }
+  .Connect {
+    @apply bg-blue-500;
+    @apply w-[60vw];
+    @apply h-[50vh];
+    @apply rounded-xl;
+    @apply border-2;
+    @apply shadow-xl;
+    @apply grid;
+    @apply grid-rows-2;
+    @apply p-20;
+    @apply items-center;
+    @apply justify-center;
+  }
+  .Connect h1 {
+    @apply text-3xl;
+    @apply tracking-widest;
+    @apply text-gray-100;
+  }
+  .Connect button {
+    @apply rounded-md;
+    @apply shadow-xl;
+    @apply h-[10vh];
+    @apply bg-white;
+    @apply text-blue-700;
+    @apply text-3xl;
+    @apply tracking-widest;
+  }
+  input {
+    @apply bg-blue-100;
+    @apply border-2;
+    @apply border-blue-500;
+    @apply text-indigo-900;
+  }
+}
+
+button {
+  background-color: aqua;
+  border-radius: 30%;
+}

@@ -2,6 +2,7 @@ import { insApi, batchApi, ins } from './contractInfos'
 import { useState } from 'react'
 import { ethers } from 'ethers'
 import { QRCodeSVG } from 'qrcode.react'
+import { ConnectPage } from './Customer'
 
 // Connect with metamask
 export const connect = async () => {
@@ -108,6 +109,7 @@ function BatchReceiver() {
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [selectedBatch, setSelectedBatch] = useState(0)
   const [inspectedBatches, setInspectedBatches] = useState([])
+  const [isConnected, setIsConnected] = useState(false)
   const [batchToAdd, setBatchToAdd] = useState({
     name: '',
     energy: 0,
@@ -120,12 +122,10 @@ function BatchReceiver() {
     productionDate: 'Not specified',
     expiryDate: 'Not specified',
   })
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
   return (
     <div className="App">
       <header className="App-header">
-        <div className="connect-wallet">
-          <button onClick={() => connect()}>Connect</button>
-        </div>
         <div>
           <button onClick={() => getListOfItemsToInspect(setBatchesToInspect)}>
             View batches
