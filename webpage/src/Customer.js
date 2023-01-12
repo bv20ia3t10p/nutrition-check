@@ -1,33 +1,66 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   ItemSingleInfo,
   viewBatch,
   getStatChecks,
   ConnectPage,
-} from './Function'
+} from "./Function";
 
 const Customer = () => {
-  const [addressInput, setAddressInput] = useState('')
-  const [suppliedStat, setSuppliedStat] = useState()
-  const [inspectedStat, setInspectedStat] = useState()
-  const [statChecks, setStatChecks] = useState()
-  const [isConnected, setIsConnected] = useState(false)
+  const [addressInput, setAddressInput] = useState("");
+  const [suppliedStat, setSuppliedStat] = useState({
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [inspectedStat, setInspectedStat] = useState({
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [statChecks, setStatChecks] = useState({
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [isConnected, setIsConnected] = useState(false);
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const _suppliedStat = viewBatch(addressInput, setSuppliedStat, 0)
-      const _inspectedStat = viewBatch(addressInput, setInspectedStat, 1)
-      const _checks = getStatChecks(addressInput, setStatChecks)
-      if (!_suppliedStat) throw new Error('Item not found')
-      setSuppliedStat(_suppliedStat)
-      if (!_inspectedStat) throw new Error('Item not inspected')
-      setInspectedStat(_inspectedStat)
-      setStatChecks(_checks)
+      const _suppliedStat = viewBatch(addressInput, setSuppliedStat, 0);
+      const _inspectedStat = viewBatch(addressInput, setInspectedStat, 1);
+      const _checks = getStatChecks(addressInput, setStatChecks);
+      if (!_suppliedStat) throw new Error("Item not found");
+      setSuppliedStat(_suppliedStat);
+      if (!_inspectedStat) throw new Error("Item not inspected");
+      setInspectedStat(_inspectedStat);
+      setStatChecks(_checks);
     } catch (e) {
-      alert(e)
+      alert(e);
     }
-  }
-  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
+  };
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />;
   return (
     <div>
       <h1>Hello customer</h1>
@@ -41,11 +74,31 @@ const Customer = () => {
         />
         <button type="submit">Search</button>
       </form>
-      {suppliedStat && <ItemSingleInfo info={suppliedStat} />}
+      {/* {suppliedStat && <ItemSingleInfo info={suppliedStat} />}
       {inspectedStat && <ItemSingleInfo info={inspectedStat} />}
-      {statChecks && <ItemSingleInfo info={statChecks} />}
-    </div>
-  )
-}
+      {statChecks && <ItemSingleInfo info={statChecks} />} */}
 
-export default Customer
+      { suppliedStat.name && 
+        <div className="item">
+          {Object.entries(suppliedStat).map((n, index) => {
+            return (
+              <div key={index}>
+                {n[0]} : {n[1]}{" "}
+                {index < 8 && index > 0 ? (
+                  <span>
+                    {" "}
+                    {`${inspectedStat[`${n[0]}`]}`} {`${statChecks[`${n[0]}`]}`}{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
+              </div>
+            );
+          })}
+        </div>
+      }
+    </div>
+  );
+};
+
+export default Customer;
