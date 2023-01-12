@@ -74,7 +74,6 @@ contract Batch {
 
     // If 0, returns suppliedStat
     // If 1, returns inspectedStat
-    // If 2, returns checks
     function getStat(uint8 statType) public view returns (foodStat memory) {
         if (statType == 0) {
             return suppliedStat;

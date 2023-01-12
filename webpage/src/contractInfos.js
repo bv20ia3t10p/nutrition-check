@@ -336,19 +336,13 @@ export const batchApi = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint8',
-        name: 'index',
-        type: 'uint8',
-      },
-    ],
+    inputs: [],
     name: 'getStatChecks',
     outputs: [
       {
-        internalType: 'string',
+        internalType: 'string[9]',
         name: '',
-        type: 'string',
+        type: 'string[9]',
       },
     ],
     stateMutability: 'view',
@@ -439,4 +433,5 @@ export const batchApi = [
     type: 'function',
   },
 ]
-export const ins = '0x77E1eEA9963D9D5a3dAc47C57b8B20d1d07b96dD'
+
+export const ins = '0x7A387a364c95326E967aee210eb6359386C3359B'

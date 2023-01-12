@@ -10,6 +10,7 @@ import {
 } from './BatchReceiver'
 import { insApi, batchApi, ins } from './contractInfos'
 import { ethers } from 'ethers'
+import { QRCodeCanvas } from 'qrcode.react'
 
 const inspect = async (
   address,
@@ -52,6 +53,29 @@ const inspect = async (
   }
 }
 
+export const getStatChecks = async (address, setOutputData) => {
+  try {
+    if (!typeof window.ethereum) throw new Error('Please install metamask')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(address, batchApi, signer)
+    const basicInfo = await contract.getStat(1)
+    const output = await contract.getStatChecks()
+    setOutputData({
+      ...JSON.parse(
+        batchInfoToJsonString([
+          basicInfo.name,
+          ...output,
+          basicInfo.inspectedDate,
+        ]),
+      ),
+      address,
+    })
+  } catch (e) {
+    alert(e)
+  }
+}
+
 export const getAllInspectedBatches = async (setInspectedBatches) => {
   try {
     if (!typeof window.ethereum) throw new Error('Please install metamask')
@@ -87,6 +111,7 @@ const Inspector = () => {
   const [inspectedBatches, setInspectedBatches] = useState([])
   const [selectedInspected, setSelectedInspected] = useState({})
   const [currentInspectedBatch, setCurrentInspectedBatch] = useState({})
+  const [outputData, setOutputData] = useState()
   useEffect(() => {
     const fetchData = async () => {
       if (isConnected && isLoading) {
@@ -109,6 +134,7 @@ const Inspector = () => {
     if (!inspectedBatches.length) return
     if (!inspectedBatches[selectedInspected]) return
     viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
+    getStatChecks(inspectedBatches[selectedInspected], setOutputData)
   }, [inspectedBatches, selectedInspected])
   const handleClickConnect = async () => {
     const resp = await connect()
@@ -184,6 +210,11 @@ const Inspector = () => {
               </div>
             )
           })}
+        </div>
+      )}
+      {outputData && (
+        <div className="output">
+          <QRCodeCanvas value={JSON.stringify(outputData)} />
         </div>
       )}
     </div>
