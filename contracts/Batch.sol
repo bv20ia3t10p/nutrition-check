@@ -1,18 +1,21 @@
-// SPDX-License-Indentifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
 contract Batch {
-    string public name;
     // Batch item is added and assigned inspector at the same time
     // For this development purpose, it'll be the account that create the contract
     address public immutable inspector;
     // Only inspector can perform certain functions (inspect)
     modifier onlyInspector() {
         // If the address calling this contract isn't the inspector's address, the function will stop and throw an error "You're not..."
-        require(inspector == msg.sender, "You're not privileged to do this");
+        require(
+            inspector == msg.sender,
+            "You're not privileged to do this on the batch"
+        );
         _;
     }
     struct foodStat {
+        string name;
         uint256 energy; // In Kcal / KJ
         uint256 protein; // g
         uint256 carbohydrate; // g
@@ -52,7 +55,7 @@ contract Batch {
         string memory i_expiryDate
     ) {
         inspector = i_inspector;
-        name = i_name;
+        suppliedStat.name = i_name;
         suppliedStat.energy = i_energy;
         suppliedStat.protein = i_protein;
         suppliedStat.carbohydrate = i_carbohydrate;
@@ -65,8 +68,8 @@ contract Batch {
         suppliedStat.inspectedDate = "Not inspected";
     }
 
-    function getStatChecks(uint8 index) public view returns (string memory) {
-        return statChecks[index];
+    function getStatChecks() public view returns (string[9] memory) {
+        return statChecks;
     }
 
     // If 0, returns suppliedStat
@@ -75,6 +78,10 @@ contract Batch {
         if (statType == 0) {
             return suppliedStat;
         } else return inspectedStat;
+    }
+
+    function getDesignedInspector() public view returns (address) {
+        return inspector;
     }
 
     //onlyInspector is the modifier for only assigned inspector (station) is allowed to do this, declared at top of contract
@@ -90,6 +97,7 @@ contract Batch {
         string memory i_expiryDate,
         string memory i_inspectedDate
     ) public onlyInspector {
+        inspectedStat.name = suppliedStat.name;
         inspectedStat.energy = i_energy;
         inspectedStat.protein = i_protein;
         inspectedStat.carbohydrate = i_carbohydrate;

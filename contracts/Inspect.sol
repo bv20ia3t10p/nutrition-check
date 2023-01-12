@@ -1,9 +1,18 @@
-// SPDX-License-Indentifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 import "./Batch.sol";
 
 contract Inspector {
     address public immutable inspector;
+
+    //Only inspector is allowed to perform certain actions
+    modifier onlyInspector() {
+        require(
+            msg.sender == inspector,
+            "You're not the account entrusted as inspector"
+        );
+        _;
+    }
 
     constructor() {
         inspector = msg.sender;
@@ -25,10 +34,10 @@ contract Inspector {
         uint256 i_natri,
         string memory i_productionDate,
         string memory i_expiryDate
-    ) public {
+    ) public onlyInspector {
         // Create a new batch with given inputs
         Batch newBatch = new Batch(
-            inspector,
+            address(this),
             i_name,
             i_energy,
             i_protein,
@@ -56,10 +65,10 @@ contract Inspector {
         string memory i_productionDate,
         string memory i_expiryDate,
         string memory i_inspectedDate
-    ) public {
-        //Create a Batch contract from address passed into function
+    ) public onlyInspector {
+        // Create a Batch contract from address passed into function
         Batch inspectingBatch = Batch(batchToInspect);
-        //Perform inspect
+        // Perform inspect
         inspectingBatch.inspect(
             i_energy,
             i_protein,
@@ -72,8 +81,19 @@ contract Inspector {
             i_expiryDate,
             i_inspectedDate
         );
-        //Push batch to inspected batches
+        // Push batch to inspected batches
         inspectedBatches.push(batchToInspect);
+        // Remove batch from batch to inpecct
+    }
+
+    //Get batches that have been inspected
+    function getAllInspectedBatches() public view returns (address[] memory) {
+        return inspectedBatches;
+    }
+
+    //Get all batches that haven't been inspected
+    function getAllBatchesToInspect() public view returns (address[] memory) {
+        return batchesToInspect;
     }
 
     //Get batch at specified index
