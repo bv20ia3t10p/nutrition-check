@@ -247,6 +247,19 @@ export const batchApi = [
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "getDesignedInspector",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint8",
@@ -258,6 +271,11 @@ export const batchApi = [
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
           {
             "internalType": "uint256",
             "name": "energy",
@@ -318,19 +336,13 @@ export const batchApi = [
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "index",
-        "type": "uint8"
-      }
-    ],
+    "inputs": [],
     "name": "getStatChecks",
     "outputs": [
       {
-        "internalType": "string",
+        "internalType": "string[9]",
         "name": "",
-        "type": "string"
+        "type": "string[9]"
       }
     ],
     "stateMutability": "view",
@@ -419,19 +431,6 @@ export const batchApi = [
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "name",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }
 ]
-export const ins = '0xEf6BF92E98528e7bA5A1105277b53602CE936115';
+export const ins = '0xD3FF62f8B409974Eb9389489815564D20db11408';

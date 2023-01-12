@@ -170,11 +170,13 @@ function BatchReceiver() {
   )
 }
 
-export const InputField = ({ label, state, setState, property }) => {
+export const InputField = ({ disable, placeholder, label, state, setState, property }) => {
   return (
     <div className="input-field">
       <span>{label}: </span>
       <input
+        disabled= {disable}
+        placeholder= {placeholder}
         type="text"
         value={state[`${property}`]}
         onChange={(e) =>
