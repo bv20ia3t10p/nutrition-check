@@ -24,11 +24,11 @@ contract Batch {
         uint256 saturatedFat; // g
         uint256 natri; // mg]
         string productionDate; // dd-mm-yyyy
-        string expiriyDate; //dd-mm-yyyy
+        string expiryDate; //dd-mm-yyyy
         string inspectedDate; //dd-mm-yyyy suppliedStat will be initialise with 0
     }
-    foodStat private suppliedStat;
-    foodStat private inspectedStat;
+    foodStat public suppliedStat;
+    foodStat public inspectedStat;
     //statChecks work the same as foodStat but with string for everything except for inspectedDate.
     //In this concept, expiryDate and productionDate MUST be the same for legal problems
     string[9] private statChecks;
@@ -64,7 +64,7 @@ contract Batch {
         suppliedStat.saturatedFat = i_satFat;
         suppliedStat.natri = i_natri;
         suppliedStat.productionDate = i_productionDate;
-        suppliedStat.expiriyDate = i_expiryDate;
+        suppliedStat.expiryDate = i_expiryDate;
         suppliedStat.inspectedDate = "Not inspected";
     }
 
@@ -105,8 +105,8 @@ contract Batch {
         inspectedStat.fat = i_fat;
         inspectedStat.saturatedFat = i_satFat;
         inspectedStat.natri = i_natri;
-        inspectedStat.productionDate = i_productionDate;
-        inspectedStat.expiriyDate = i_expiryDate;
+        inspectedStat.productionDate = suppliedStat.productionDate;
+        inspectedStat.expiryDate = suppliedStat.expiryDate;
         inspectedStat.inspectedDate = i_inspectedDate;
         //Check if provided stat are up to actual stat
         //Loop from the first index to the 7th item in statChecks
@@ -154,8 +154,8 @@ contract Batch {
             ? "Pass"
             : "Alert";
         //expiryDate check
-        statChecks[8] = keccak256(abi.encodePacked(suppliedStat.expiriyDate)) ==
-            keccak256(abi.encodePacked(inspectedStat.expiriyDate))
+        statChecks[8] = keccak256(abi.encodePacked(suppliedStat.expiryDate)) ==
+            keccak256(abi.encodePacked(inspectedStat.expiryDate))
             ? "Pass"
             : "Alert";
     }
