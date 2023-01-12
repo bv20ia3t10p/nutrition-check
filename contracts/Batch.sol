@@ -8,7 +8,10 @@ contract Batch {
     // Only inspector can perform certain functions (inspect)
     modifier onlyInspector() {
         // If the address calling this contract isn't the inspector's address, the function will stop and throw an error "You're not..."
-        require(inspector == msg.sender, "You're not privileged to do this");
+        require(
+            inspector == msg.sender,
+            "You're not privileged to do this on the batch"
+        );
         _;
     }
     struct foodStat {
@@ -65,16 +68,21 @@ contract Batch {
         suppliedStat.inspectedDate = "Not inspected";
     }
 
-    function getStatChecks(uint8 index) public view returns (string memory) {
-        return statChecks[index];
+    function getStatChecks() public view returns (string[9] memory) {
+        return statChecks;
     }
 
     // If 0, returns suppliedStat
     // If 1, returns inspectedStat
+    // If 2, returns checks
     function getStat(uint8 statType) public view returns (foodStat memory) {
         if (statType == 0) {
             return suppliedStat;
         } else return inspectedStat;
+    }
+
+    function getDesignedInspector() public view returns (address) {
+        return inspector;
     }
 
     //onlyInspector is the modifier for only assigned inspector (station) is allowed to do this, declared at top of contract

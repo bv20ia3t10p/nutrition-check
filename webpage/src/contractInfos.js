@@ -247,6 +247,19 @@ export const batchApi = [
     type: 'constructor',
   },
   {
+    inputs: [],
+    name: 'getDesignedInspector',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'uint8',
@@ -426,4 +439,4 @@ export const batchApi = [
     type: 'function',
   },
 ]
-export const ins = '0x659415C71BdBe2334de50ed01b551b2e1BcCa722'
+export const ins = '0x77E1eEA9963D9D5a3dAc47C57b8B20d1d07b96dD'

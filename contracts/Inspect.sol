@@ -7,7 +7,10 @@ contract Inspector {
 
     //Only inspector is allowed to perform certain actions
     modifier onlyInspector() {
-        require(msg.sender == inspector, "You're not privileged to do this");
+        require(
+            msg.sender == inspector,
+            "You're not the account entrusted as inspector"
+        );
         _;
     }
 
@@ -34,7 +37,7 @@ contract Inspector {
     ) public onlyInspector {
         // Create a new batch with given inputs
         Batch newBatch = new Batch(
-            inspector,
+            address(this),
             i_name,
             i_energy,
             i_protein,
@@ -81,28 +84,6 @@ contract Inspector {
         // Push batch to inspected batches
         inspectedBatches.push(batchToInspect);
         // Remove batch from batch to inpecct
-        checkBatchAsInspected(batchToInspect);
-    }
-
-    // Get the inspected batch, move to the end of the array and perform delete
-    function checkBatchAsInspected(address batchToMove) private {
-        for (uint8 i = 0; i < batchesToInspect.length; i++) {
-            if (batchesToInspect[i] == batchToMove) {
-                if (i == batchesToInspect.length - 1) {
-                    // If the batch is already at the end of the array
-                    delete batchesToInspect[i];
-                    return;
-                }
-                // Save the batch at index where address match batchToMove
-                address temp = batchesToInspect[i];
-                // Perform swap
-                batchesToInspect[i] = batchesToInspect[
-                    batchesToInspect.length - 1
-                ];
-                batchesToInspect[batchesToInspect.length - 1] = temp;
-                delete batchesToInspect[batchesToInspect.length - 1];
-            }
-        }
     }
 
     //Get batches that have been inspected
