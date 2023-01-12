@@ -98,6 +98,7 @@ const Inspector = () => {
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [selectedBatch, setSelectedBatch] = useState([])
   const [currentBatch, setCurrentBatch] = useState()
+  const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
     energy: 0,
     protein: 0,
@@ -152,6 +153,12 @@ const Inspector = () => {
   if (isLoading) return <div className="">Loading list of batches</div>
   return (
     <div className="inspector">
+      <button
+        onClick={() => setIsChangedColor(!isChangedColor)}
+        className={`${isChangedColor ? 'green-btn' : 'blue-button'}`}
+      >
+        Button
+      </button>
       <div className="batches">
         <h1>Batches to inspect</h1>
         {batchesToInspect.length &&
@@ -175,6 +182,12 @@ const Inspector = () => {
       )}
       <div className="inspected-stat">
         <h1>Stats from inspectation</h1>
+        {/* <InputField
+          label="Product name"
+          state={inspectInfo}
+          setState={setInspectInfo}
+          property={inspectInfo.name}
+        /> */}
         {Object.keys(inspectInfo).map((n, index) => (
           <InputField
             key={index}

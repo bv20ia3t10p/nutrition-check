@@ -75,4 +75,12 @@
     @apply text-3xl;
     @apply tracking-widest;
   }
+  .green-btn {
+    @apply h-[10vh];
+    @apply bg-green-900;
+  }
+  .blue-button {
+    @apply h-[10vh];
+    @apply bg-blue-900;
+  }
 }
