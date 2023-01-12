@@ -408,4 +408,4 @@ export const batchApi = [
         "type": "function"
     }
 ];
-export const ins = '0xE9488d9EdDED57D471e940b1554FeE9FBEEa9cF3';
+export const ins = '0x9F1B80519eB102D4fdCb9a6F191DdcfF9EeCAA9b';

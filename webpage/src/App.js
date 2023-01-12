@@ -21,8 +21,8 @@ const addBatch = async () => {
     const contract = new ethers.Contract(ins, insApi, signer)
     try {
       await contract.addBatch("Milk",
-        formatNumber('10'), formatNumber('20'),
-        formatNumber('30'), formatNumber('40'),
+        formatNumber('3.1111'), formatNumber('1.5'),
+        formatNumber('5.3'), formatNumber('4.7'),
         formatNumber('50'), formatNumber('60'),
         formatNumber('70'), '20-03-2002', '20-03-2100')
     } catch (error) {
@@ -36,7 +36,7 @@ const viewBatch = async (setCurrentBatch) => {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ins, insApi, signer)
     try {
-      const batchAddress = await contract.getBatchAtIndex(1);
+      const batchAddress = await contract.getBatchAtIndex(7); //
       const contract2 = new ethers.Contract(batchAddress, batchApi, signer)
       const resp = await contract2.getStat(0);
       const formattedData = resp.map((n) => {
@@ -67,7 +67,7 @@ const batchInfoToJsonString = (batchInfo) =>
   "inspectedDate":"${batchInfo[9]}"}`
 
 function App() {
-  const [currentBatch, setCurrentBatch] = useState([])
+  const [currentBatch, setCurrentBatch] = useState([]) //Biến trong reac 
   return (
     <div className="App">
       <header className="App-header">
@@ -84,6 +84,7 @@ function App() {
           <button>Generate QR</button>
           <QRCodeSVG value={batchInfoToJsonString(currentBatch)} />
         </div>
+        <div>{currentBatch}</div>
       </header>
     </div>
   );
