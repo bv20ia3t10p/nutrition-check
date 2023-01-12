@@ -10,6 +10,7 @@ import {
 } from './BatchReceiver'
 import { insApi, batchApi, ins } from './contractInfos'
 import { ethers } from 'ethers'
+import canvasToImage from 'canvas-to-image'
 import { QRCodeCanvas } from 'qrcode.react'
 
 const inspect = async (
@@ -113,6 +114,7 @@ const Inspector = () => {
   const [currentInspectedBatch, setCurrentInspectedBatch] = useState({})
   const [outputData, setOutputData] = useState()
   useEffect(() => {
+    if (!isConnected) return
     const fetchData = async () => {
       if (isConnected && isLoading) {
         const resp =
@@ -126,18 +128,21 @@ const Inspector = () => {
     fetchData()
   }, [isLoading, isConnected])
   useEffect(() => {
+    if (!isConnected) return
     if (!batchesToInspect.length) return
     if (!batchesToInspect[selectedBatch]) return
     viewBatch(batchesToInspect[selectedBatch], setCurrentBatch, 0)
-  }, [batchesToInspect, selectedBatch])
+  }, [isConnected, batchesToInspect, selectedBatch])
   useEffect(() => {
+    if (!isConnected) return
     if (!inspectedBatches.length) return
     if (!inspectedBatches[selectedInspected]) return
     viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
     getStatChecks(inspectedBatches[selectedInspected], setOutputData)
-  }, [inspectedBatches, selectedInspected])
+  }, [isConnected, inspectedBatches, selectedInspected])
   const handleClickConnect = async () => {
     const resp = await connect()
+    console.log(resp)
     if (resp) setIsConnected(true)
   }
   const handleInspect = async () => {
@@ -151,7 +156,13 @@ const Inspector = () => {
     return (
       <div>
         <h1>Please first connect to metamask</h1>
-        <button onClick={() => handleClickConnect()}>Connect</button>
+        <button
+          onClick={async () => {
+            await handleClickConnect()
+          }}
+        >
+          Connect
+        </button>
       </div>
     )
   if (isLoading) return <div className="">Loading list of batches</div>
@@ -214,9 +225,26 @@ const Inspector = () => {
       )}
       {outputData && (
         <div className="output">
-          <QRCodeCanvas value={JSON.stringify(outputData)} />
+          <QRCodeCanvas
+            // includeMargin={true}
+            id="qrcode"
+            value={JSON.stringify(outputData)}
+            // level="H"
+            size={500}
+          />
         </div>
       )}
+      <button
+        onClick={() =>
+          canvasToImage(document.getElementById('qrcode'), {
+            name: 'inspectedItemQR',
+            type: 'jpg',
+            quality: 2,
+          })
+        }
+      >
+        Download
+      </button>
     </div>
   )
 }

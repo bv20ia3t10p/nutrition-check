@@ -2982,6 +2982,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001442.tgz#40337f1cf3be7c637b061e2f78582dc1daec0614"
   integrity sha512-239m03Pqy0hwxYPYR5JwOIxRJfLTWtle9FV8zosfV5pHg+/51uD4nxcUlM8+mWWGfwKtt8lJNHnD3cWw9VZ6ow==
 
+canvas-to-image@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/canvas-to-image/-/canvas-to-image-2.2.5.tgz#cad327dfc91c8218ef815e409cc805dcf7572463"
+  integrity sha512-Wvcz+KLh4/eM0cJ2AfQCFpC3Sv0yChMhyTuOvqRMmJLASphpMOr/sDrJs73kYXSN+z1yjjyWt7yIIy+H9lnrPQ==
+
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
