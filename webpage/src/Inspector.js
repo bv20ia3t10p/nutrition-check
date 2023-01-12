@@ -12,6 +12,7 @@ import { insApi, batchApi, ins } from './contractInfos'
 import { ethers } from 'ethers'
 import canvasToImage from 'canvas-to-image'
 import { QRCodeCanvas } from 'qrcode.react'
+import { ConnectPage } from './Customer'
 
 const inspect = async (
   address,
@@ -140,11 +141,6 @@ const Inspector = () => {
     viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
     getStatChecks(inspectedBatches[selectedInspected], setOutputData)
   }, [isConnected, inspectedBatches, selectedInspected])
-  const handleClickConnect = async () => {
-    const resp = await connect()
-    console.log(resp)
-    if (resp) setIsConnected(true)
-  }
   const handleInspect = async () => {
     const resp = await inspect(
       batchesToInspect[selectedBatch],
@@ -152,19 +148,7 @@ const Inspector = () => {
     )
     if (resp) alert('Success')
   }
-  if (!isConnected)
-    return (
-      <div>
-        <h1>Please first connect to metamask</h1>
-        <button
-          onClick={async () => {
-            await handleClickConnect()
-          }}
-        >
-          Connect
-        </button>
-      </div>
-    )
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
   if (isLoading) return <div className="">Loading list of batches</div>
   return (
     <div className="inspector">
