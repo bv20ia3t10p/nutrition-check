@@ -36,7 +36,7 @@ const viewBatch = async (setCurrentBatch) => {
     const signer = provider.getSigner()
     const contract = new ethers.Contract(ins, insApi, signer)
     try {
-      const batchAddress = await contract.getBatchAtIndex(1);
+      const batchAddress = await contract.getBatchAtIndex(0);
       const contract2 = new ethers.Contract(batchAddress, batchApi, signer)
       const resp = await contract2.getStat(0);
       const formattedData = resp.map((n) => {
@@ -45,7 +45,7 @@ const viewBatch = async (setCurrentBatch) => {
         }
         return n;
       })
-      console.log(resp);
+      console.log(batchAddress);
       console.log(formattedData);
       setCurrentBatch(formattedData);
     } catch (error) {
