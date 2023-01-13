@@ -11,6 +11,7 @@ import canvasToImage from 'canvas-to-image'
 
 function BatchReceiver() {
   const [currentBatch, setCurrentBatch] = useState({ name: '' })
+  const [qrValue, setQrValue] = useState()
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [, setSelectedBatch] = useState(0)
   const [isViewingBatchInfo, setIsViewingBatchInfo] = useState(false)
@@ -103,7 +104,7 @@ function BatchReceiver() {
                           setCurrentBatch,
                           0,
                         )
-                        setCurrentBatch({ ...currentBatch, address: n })
+                        setQrValue(batchesToInspect[index])
                       }}
                       key={index}
                     >
@@ -116,8 +117,9 @@ function BatchReceiver() {
             {currentBatch.name && (
               <>
                 <QRCodeCanvas
+                  size={500}
                   id="qrCodeReceiver"
-                  value={JSON.stringify(currentBatch)}
+                  value={JSON.stringify({ ...currentBatch, address: qrValue })}
                 />
                 <button
                   onClick={() =>
