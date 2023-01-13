@@ -434,4 +434,4 @@ export const batchApi = [
   },
 ]
 
-export const ins = '0xe4062b2a33fFf52226Fa5F14878a83D4E1e074ad'
+export const ins = '0x6bb3B44504fbfd74F3a78646C1671a4B5719B99e'
