@@ -45,10 +45,10 @@ export const getListOfItemsToInspect = async (setBatchesToInspect) => {
 export const formatNumber = (n) => ethers.utils.parseEther(`${n}`)
 export const sysDatetoString = () => {
   const today = new Date()
-  const dd = String(today.getDate())
-  const mm = String(today.getMonth() + 1) //January is 0!
+  const dd = String(today.getDate()).padStart(2, '0')
+  const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
   const yyyy = today.getFullYear()
-  const inspectDate = mm + '-' + dd + '-' + yyyy
+  const inspectDate = yyyy + '-' + mm + '-' + dd
 
   return inspectDate
 }
@@ -140,7 +140,6 @@ export const ItemSingleInfo = ({ info }) => {
 export const InputField = ({
   disable,
   placeholder,
-  type,
   label,
   state,
   setState,
@@ -152,7 +151,7 @@ export const InputField = ({
       <input
         disabled={disable}
         placeholder={placeholder}
-        type= {type}
+        type="text"
         value={state[`${property}`]}
         onChange={(e) =>
           setState({ ...state, [`${property}`]: e.target.value })
