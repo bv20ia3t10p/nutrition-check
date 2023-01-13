@@ -108,6 +108,7 @@ contract Batch {
         inspectedStat.productionDate = suppliedStat.productionDate;
         inspectedStat.expiryDate = suppliedStat.expiryDate;
         inspectedStat.inspectedDate = i_inspectedDate;
+        suppliedStat.inspectedDate = i_inspectedDate;
         //Check if provided stat are up to actual stat
         //Loop from the first index to the 7th item in statChecks
         //Energy check

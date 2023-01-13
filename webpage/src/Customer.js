@@ -78,26 +78,28 @@ const Customer = () => {
       {inspectedStat && <ItemSingleInfo info={inspectedStat} />}
       {statChecks && <ItemSingleInfo info={statChecks} />} */}
 
-      { suppliedStat.name && 
+      {suppliedStat.name && (
         <div className="item">
           {Object.entries(suppliedStat).map((n, index) => {
             return (
               <div key={index}>
-                <span class="n0">{n[0]}</span> : {index < 10 ? (<div class="n1">{n[1]}</div>) : ("")}
+                <span class="n0">{n[0]}</span> :{" "}
+                {index < 10 ? <div class="n1">{n[1]}</div> : ""}
                 {index < 8 && index > 0 ? (
                   <div>
                     {" "}
-                    <div class="n3">{`${inspectedStat[`${n[0]}`]}`}</div> <div class="n4">{`${statChecks[`${n[0]}`]}`}</div>{" "}
+                    <div class="n3">{`${inspectedStat[`${n[0]}`]}`}</div>{" "}
+                    <div class="n4">{`${statChecks[`${n[0]}`]}`}</div>{" "}
                   </div>
                 ) : (
                   ""
                 )}
-                {index === 10 ? (<div>{`${inspectedStat[`${n[0]}`]}`}</div>):("")}
+                {index === 10 ? <div>{`${inspectedStat[`${n[0]}`]}`}</div> : ""}
               </div>
             );
           })}
         </div>
-      }
+      )}
     </div>
   );
 };
