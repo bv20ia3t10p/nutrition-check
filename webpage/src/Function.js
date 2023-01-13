@@ -147,7 +147,7 @@ export const InputField = ({
 }) => {
   return (
     <div className="input-field">
-      <span>{label}: </span>
+      <div className="name-space">{label}: </div>
       <input
         disabled={disable}
         placeholder={placeholder}
