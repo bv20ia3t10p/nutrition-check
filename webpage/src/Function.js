@@ -140,6 +140,7 @@ export const ItemSingleInfo = ({ info }) => {
 export const InputField = ({
   disable,
   placeholder,
+  type,
   label,
   state,
   setState,
@@ -151,7 +152,7 @@ export const InputField = ({
       <input
         disabled={disable}
         placeholder={placeholder}
-        type="text"
+        type= {type}
         value={state[`${property}`]}
         onChange={(e) =>
           setState({ ...state, [`${property}`]: e.target.value })

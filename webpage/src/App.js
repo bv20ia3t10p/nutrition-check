@@ -4,12 +4,15 @@ import BatchReceiver from './BatchReceiver'
 import Customer from './Customer'
 import Inspector from './Inspector'
 import Navbar from './Navbar'
+import {Tabs} from './scripts'
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <main className="content">
+      <main className="content" 
+      //onClick = {Tabs}
+      >
         <Routes>
           <Route exact path="Receiver" element={<BatchReceiver />} />
           <Route exact path="Inspector" element={<Inspector />} />
