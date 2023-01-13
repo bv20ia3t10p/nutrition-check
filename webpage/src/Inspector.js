@@ -19,6 +19,11 @@ const Inspector = () => {
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [selectedBatch, setSelectedBatch] = useState([])
   const [currentBatch, setCurrentBatch] = useState()
+  const [
+    isViewingInspectedBatchInfo,
+    setIsViewingInspectedBatchInfo,
+  ] = useState(false)
+  const [isViewingBatchInfo, setIsViewingBatchInfo] = useState(false)
   // const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
     energy: '',
@@ -98,12 +103,18 @@ const Inspector = () => {
         <h1>Batches to inspect</h1>
         {batchesToInspect.length !== 0 &&
           batchesToInspect.map((n, index) => (
-            <div key={index} onClick={() => setSelectedBatch(index)}>
+            <div
+              key={index}
+              onClick={() => {
+                setIsViewingBatchInfo(true)
+                setSelectedBatch(index)
+              }}
+            >
               {n}
             </div>
           ))}
       </div>
-      {currentBatch && (
+      {isViewingBatchInfo && currentBatch && (
         <div className="supplied-stat">
           <h1>Stat provided by the supplier</h1>
           {Object.entries(currentBatch).map((n, index) => {
@@ -113,6 +124,7 @@ const Inspector = () => {
               </div>
             )
           })}
+          <button onClick={() => setIsViewingBatchInfo(false)}>Close</button>
         </div>
       )}
       <div className="inspected-stat">
@@ -148,6 +160,7 @@ const Inspector = () => {
                 property={'inspectedDate'}
               />
             )
+          return <></>
         })}
       </div>
       <button onClick={() => handleInspect()}>Inspect</button>
@@ -155,12 +168,18 @@ const Inspector = () => {
         <h1>Inspected batches</h1>
         {inspectedBatches.length !== 0 &&
           inspectedBatches.map((n, index) => (
-            <div key={index} onClick={() => setSelectedInspected(index)}>
+            <div
+              key={index}
+              onClick={() => {
+                setIsViewingInspectedBatchInfo(true)
+                setSelectedInspected(index)
+              }}
+            >
               {n}
             </div>
           ))}
       </div>
-      {currentInspectedBatch && (
+      {isViewingInspectedBatchInfo && currentInspectedBatch && (
         <div className="supplied-stat">
           <h1>Inspected stats</h1>
           {Object.entries(currentInspectedBatch).map((n, index) => {
@@ -187,7 +206,7 @@ const Inspector = () => {
           })}
         </div>
       )}
-      {outputData.name && (
+      {isViewingInspectedBatchInfo && outputData.name && (
         <div className="output">
           <QRCodeCanvas
             // includeMargin={true}
@@ -206,6 +225,9 @@ const Inspector = () => {
             }
           >
             Download
+          </button>
+          <button onClick={() => setIsViewingInspectedBatchInfo(false)}>
+            Close
           </button>
         </div>
       )}
