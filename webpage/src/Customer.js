@@ -5,9 +5,11 @@ import {
   getStatChecks,
   ConnectPage,
 } from './Function'
+import QRcodeReader from './QRcodeReader'
 
 const Customer = () => {
   const [addressInput, setAddressInput] = useState('')
+  // const [scanResult, setScanResult] = useState()
   const [suppliedStat, setSuppliedStat] = useState({
     energy: '',
     protein: '',
@@ -100,6 +102,18 @@ const Customer = () => {
           })}
         </div>
       )}
+      <QRcodeReader setScanResult={setAddressInput} />
+      {/* {scanResult && (
+        <div className="item">
+          {Object.entries(scanResult).map((n, index) => {
+            return (
+              <div>
+                {n[0]} : {n[1]}
+              </div>
+            )
+          })}
+        </div>
+      )} */}
     </div>
   )
 }
