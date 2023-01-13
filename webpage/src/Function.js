@@ -1,57 +1,57 @@
-import { ethers } from "ethers";
-import { insApi, batchApi, ins } from "./contractInfos";
+import { ethers } from 'ethers'
+import { insApi, batchApi, ins } from './contractInfos'
 
 export const getAllInspectedBatches = async (setInspectedBatches) => {
   try {
-    if (!typeof window.ethereum) throw new Error("Please install metamask");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ins, insApi, signer);
-    const batches = await contract.getAllInspectedBatches();
-    setInspectedBatches(batches);
-    return true;
+    if (!typeof window.ethereum) throw new Error('Please install metamask')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(ins, insApi, signer)
+    const batches = await contract.getAllInspectedBatches()
+    setInspectedBatches(batches)
+    return true
   } catch (e) {
-    alert(e);
+    alert(e)
   }
-};
+}
 
 // Connect with metamask
 export const connect = async () => {
   try {
-    if (!typeof window.ethereum) throw new Error("No metamask found");
-    window.ethereum.request({ method: "eth_requestAccounts" });
-    return true;
+    if (!typeof window.ethereum) throw new Error('No metamask found')
+    window.ethereum.request({ method: 'eth_requestAccounts' })
+    return true
   } catch (e) {
-    alert(e);
+    alert(e)
   }
-};
+}
 
 // Get all batches to inspect
 export const getListOfItemsToInspect = async (setBatchesToInspect) => {
   try {
-    if (!typeof window.ethereum) throw new Error("Please install metamask");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ins, insApi, signer);
-    const batches = await contract.getAllBatchesToInspect();
-    setBatchesToInspect(batches);
-    return true;
+    if (!typeof window.ethereum) throw new Error('Please install metamask')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(ins, insApi, signer)
+    const batches = await contract.getAllBatchesToInspect()
+    setBatchesToInspect(batches)
+    return true
   } catch (e) {
-    alert(e);
+    alert(e)
   }
-};
+}
 
 //To put floating point values onto the blockchain
-export const formatNumber = (n) => ethers.utils.parseEther(`${n}`);
+export const formatNumber = (n) => ethers.utils.parseEther(`${n}`)
 export const sysDatetoString = () => {
-  const today = new Date();
-  const dd = String(today.getDate()).padStart(2, "0");
-  const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  const yyyy = today.getFullYear();
-  const inspectDate = dd + "-" + mm + "-" + yyyy;
+  const today = new Date()
+  const dd = String(today.getDate()).padStart(2, '0')
+  const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+  const yyyy = today.getFullYear()
+  const inspectDate = yyyy + '-' + mm + '-' + dd
 
-  return inspectDate;
-};
+  return inspectDate
+}
 export const addBatch = async (
   name,
   energy,
@@ -62,12 +62,12 @@ export const addBatch = async (
   saturatedFat,
   natri,
   productionDate, // String dd-mm-yyyy
-  expiryDate // String dd-mm-yyyy
+  expiryDate, // String dd-mm-yyyy
 ) => {
   if (typeof window.ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ins, insApi, signer);
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(ins, insApi, signer)
     try {
       await contract.addBatch(
         name,
@@ -79,36 +79,36 @@ export const addBatch = async (
         formatNumber(saturatedFat),
         formatNumber(natri),
         productionDate,
-        expiryDate
-      );
+        expiryDate,
+      )
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
-};
+}
 
 // type 0 -> Supplied stats
 // type 1 -> Inspected stats
 
 export const viewBatch = async (address, setCurrentBatch, type) => {
   if (typeof window.ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
     try {
-      const contract2 = new ethers.Contract(address, batchApi, signer);
-      const resp = await contract2.getStat(type);
+      const contract2 = new ethers.Contract(address, batchApi, signer)
+      const resp = await contract2.getStat(type)
       const formattedData = resp.map((n) => {
         if (n._isBigNumber) {
-          return ethers.utils.formatEther(n);
+          return ethers.utils.formatEther(n)
         }
-        return n;
-      });
-      setCurrentBatch(JSON.parse(batchInfoToJsonString(formattedData)));
+        return n
+      })
+      setCurrentBatch(JSON.parse(batchInfoToJsonString(formattedData)))
     } catch (e) {
-      alert(e);
+      alert(e)
     }
   }
-};
+}
 
 export const batchInfoToJsonString = (batchInfo) =>
   `{"name":"${batchInfo[0]}",
@@ -121,7 +121,7 @@ export const batchInfoToJsonString = (batchInfo) =>
     "natri":"${batchInfo[7]}",
     "productionDate":"${batchInfo[8]}",
     "expiryDate":"${batchInfo[9]}",
-    "inspectedDate":"${batchInfo[10]}"}`;
+    "inspectedDate":"${batchInfo[10]}"}`
 
 export const ItemSingleInfo = ({ info }) => {
   return (
@@ -131,11 +131,11 @@ export const ItemSingleInfo = ({ info }) => {
           <div key={index}>
             {n[0]} : {n[1]}
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
 export const InputField = ({
   disable,
@@ -143,6 +143,7 @@ export const InputField = ({
   label,
   state,
   setState,
+  type,
   property,
 }) => {
   return (
@@ -150,23 +151,23 @@ export const InputField = ({
       <div className="name-space">{label}: </div>
       <input
         disabled={disable}
+        type={type}
         placeholder={placeholder}
-        type="text"
         value={state[`${property}`]}
         onChange={(e) =>
           setState({ ...state, [`${property}`]: e.target.value })
         }
       />
     </div>
-  );
-};
+  )
+}
 
 export const ConnectPage = ({ setIsConnected }) => {
   const handleClickConnect = async () => {
-    const resp = await connect();
-    console.log(resp);
-    if (resp) setIsConnected(true);
-  };
+    const resp = await connect()
+    console.log(resp)
+    if (resp) setIsConnected(true)
+  }
   return (
     <div className="Connect">
       <h1>Hello, please connect your metamask wallet</h1>
@@ -174,8 +175,8 @@ export const ConnectPage = ({ setIsConnected }) => {
         Connect metamask
       </button>
     </div>
-  );
-};
+  )
+}
 
 export const inspect = async (
   address,
@@ -186,19 +187,15 @@ export const inspect = async (
   fat = 0,
   saturatedFat = 0,
   natri = 0,
-  productionDate = "01-01-2001",
-  expiryDate = "01-01-2001"
+  productionDate = '01-01-2001',
+  expiryDate = '01-01-2001',
 ) => {
   try {
-    if (!typeof window.etherum) throw new Error("No metamask found");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(ins, insApi, signer);
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = today.getFullYear();
-    const inspectDate = dd + "-" + mm + "-" + yyyy;
+    if (!typeof window.etherum) throw new Error('No metamask found')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(ins, insApi, signer)
+    const inspectDate = sysDatetoString()
     await contract.inspect(
       address,
       formatNumber(energy),
@@ -210,34 +207,33 @@ export const inspect = async (
       formatNumber(natri),
       productionDate,
       expiryDate,
-      inspectDate
-    );
-    return true;
+      inspectDate,
+    )
+    return true
   } catch (e) {
-    alert(e.data.message);
+    alert(e.data.message)
   }
-};
+}
 
 export const getStatChecks = async (address, setOutputData) => {
   try {
-    if (!typeof window.ethereum) throw new Error("Please install metamask");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(address, batchApi, signer);
-    const basicInfo = await contract.getStat(1);
-    const output = await contract.getStatChecks();
+    if (!typeof window.ethereum) throw new Error('Please install metamask')
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(address, batchApi, signer)
+    const basicInfo = await contract.getStat(1)
+    const output = await contract.getStatChecks()
     setOutputData({
       ...JSON.parse(
         batchInfoToJsonString([
           basicInfo.name,
           ...output,
           basicInfo.inspectedDate,
-        ])
+        ]),
       ),
       address,
-    });
+    })
   } catch (e) {
-    alert(e);
+    alert(e)
   }
-};
-
+}
