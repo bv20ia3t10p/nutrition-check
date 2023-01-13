@@ -5,9 +5,9 @@ module.exports = {
   solidity: '0.8.17',
   networks: {
     ganache: {
-      url: 'HTTP://127.0.0.1:8545',
+      url: 'HTTP://127.0.0.1:7545',
       accounts: [
-        '92c1e5eb4df4023dae0c105f2e781735cfd2bbded4e904107134b930dbc5793e',
+        'ef128fcded16d948f6e3acbc7ece923359376967b52664af36b69923bcc0d6ac',
       ],
       chainId: 1337,
     },
