@@ -10,7 +10,7 @@ import {
 import canvasToImage from 'canvas-to-image'
 
 function BatchReceiver() {
-  const [currentBatch, setCurrentBatch] = useState()
+  const [currentBatch, setCurrentBatch] = useState({ name: '' })
   const [batchesToInspect, setBatchesToInspect] = useState([])
   const [, setSelectedBatch] = useState(0)
   const [isViewingBatchInfo, setIsViewingBatchInfo] = useState(false)
@@ -79,51 +79,61 @@ function BatchReceiver() {
           )}
         </div> */}
 
-        <div class="view-batch">
-          <button onClick={() => getListOfItemsToInspect(setBatchesToInspect)}>
+        <div className="view-batch">
+          <button
+            onClick={() => {
+              getListOfItemsToInspect(setBatchesToInspect)
+              setIsViewingBatchInfo(true)
+            }}
+          >
             View batches
           </button>
         </div>
-        <div className="qr-code">
-          <div className="batches">
-            {batchesToInspect.length !== 0 && (
-              <div className="uninspected">
-                {batchesToInspect.map((n, index) => (
-                  <div
-                    onClick={async () => {
-                      setSelectedBatch(index)
-                      await viewBatch(
-                        batchesToInspect[index],
-                        setCurrentBatch,
-                        0,
-                      )
-                    }}
-                    key={index}
-                  >
-                    {n}
-                  </div>
-                ))}
-              </div>
+        {isViewingBatchInfo && (
+          <div className="qr-code">
+            <div className="batches">
+              {batchesToInspect.length !== 0 && (
+                <div className="uninspected">
+                  {batchesToInspect.map((n, index) => (
+                    <div
+                      onClick={async () => {
+                        setSelectedBatch(index)
+                        await viewBatch(
+                          batchesToInspect[index],
+                          setCurrentBatch,
+                          0,
+                        )
+                      }}
+                      key={index}
+                    >
+                      {n}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {currentBatch.name && (
+              <>
+                <QRCodeCanvas
+                  id="qrCodeReceiver"
+                  value={JSON.stringify(currentBatch)}
+                />
+                <button
+                  onClick={() =>
+                    canvasToImage(document.getElementById('qrCodeReceiver'), {
+                      name: 'addedItemQR',
+                      type: 'jpg',
+                      quality: 2,
+                    })
+                  }
+                >
+                  Download
+                </button>
+              </>
             )}
+            <button onClick={() => setIsViewingBatchInfo(false)}>Close</button>
           </div>
-          {currentBatch && (
-            <QRCodeCanvas
-              id="qrCodeReceiver"
-              value={JSON.stringify(currentBatch)}
-            />
-          )}
-          <button
-            onClick={() =>
-              canvasToImage(document.getElementById('qrCodeReceiver'), {
-                name: 'addedItemQR',
-                type: 'jpg',
-                quality: 2,
-              })
-            }
-          >
-            Download
-          </button>
-        </div>
+        )}
       </header>
     </div>
   )
