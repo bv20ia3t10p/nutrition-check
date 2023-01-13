@@ -1,156 +1,89 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
-  connect,
+  inspect,
   //   viewBatch,
   getListOfItemsToInspect,
-  batchInfoToJsonString,
+  getAllInspectedBatches,
   InputField,
   viewBatch,
-  formatNumber,
-} from './BatchReceiver'
-import { insApi, batchApi, ins } from './contractInfos'
-import { ethers } from 'ethers'
-import canvasToImage from 'canvas-to-image'
-import { QRCodeCanvas } from 'qrcode.react'
-import { ConnectPage } from './Customer'
-
-const inspect = async (
-  address,
-  energy,
-  protein,
-  carbohydrate,
-  totalSugar,
-  fat,
-  saturatedFat,
-  natri,
-  productionDate,
-  expiryDate,
-) => {
-  try {
-    if (!typeof window.etherum) throw new Error('No metamask found')
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(ins, insApi, signer)
-    const today = new Date()
-    const dd = String(today.getDate()).padStart(2, '0')
-    const mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-    const yyyy = today.getFullYear()
-    const inspectDate = dd + '-' + mm + '-' + yyyy
-    await contract.inspect(
-      address,
-      formatNumber(energy),
-      formatNumber(protein),
-      formatNumber(carbohydrate),
-      formatNumber(totalSugar),
-      formatNumber(fat),
-      formatNumber(saturatedFat),
-      formatNumber(natri),
-      productionDate,
-      expiryDate,
-      inspectDate,
-    )
-    return true
-  } catch (e) {
-    alert(e.data.message)
-  }
-}
-
-export const getStatChecks = async (address, setOutputData) => {
-  try {
-    if (!typeof window.ethereum) throw new Error('Please install metamask')
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(address, batchApi, signer)
-    const basicInfo = await contract.getStat(1)
-    const output = await contract.getStatChecks()
-    setOutputData({
-      ...JSON.parse(
-        batchInfoToJsonString([
-          basicInfo.name,
-          ...output,
-          basicInfo.inspectedDate,
-        ]),
-      ),
-      address,
-    })
-  } catch (e) {
-    alert(e)
-  }
-}
-
-export const getAllInspectedBatches = async (setInspectedBatches) => {
-  try {
-    if (!typeof window.ethereum) throw new Error('Please install metamask')
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(ins, insApi, signer)
-    const batches = await contract.getAllInspectedBatches()
-    setInspectedBatches(batches)
-    return true
-  } catch (e) {
-    alert(e)
-  }
-}
+  getStatChecks,
+  ConnectPage,
+  sysDatetoString,
+} from "./Function";
+import canvasToImage from "canvas-to-image";
+import { QRCodeCanvas } from "qrcode.react";
 
 const Inspector = () => {
-  const [isConnected, setIsConnected] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [batchesToInspect, setBatchesToInspect] = useState([])
-  const [selectedBatch, setSelectedBatch] = useState([])
-  const [currentBatch, setCurrentBatch] = useState()
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [batchesToInspect, setBatchesToInspect] = useState([]);
+  const [selectedBatch, setSelectedBatch] = useState([]);
+  const [currentBatch, setCurrentBatch] = useState();
   // const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
-    energy: 0,
-    protein: 0,
-    carbohydrate: 0,
-    totalSugar: 0,
-    fat: 0,
-    satFat: 0,
-    natri: 0,
-    productionDate: 'Not defined',
-    expiryDate: 'Not defined',
-    inspectedDate: 'Not defined',
-  })
-  const [inspectedBatches, setInspectedBatches] = useState([])
-  const [selectedInspected, setSelectedInspected] = useState({})
-  const [currentInspectedBatch, setCurrentInspectedBatch] = useState({})
-  const [outputData, setOutputData] = useState()
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [inspectedBatches, setInspectedBatches] = useState([]);
+  const [selectedInspected, setSelectedInspected] = useState({});
+  const [currentInspectedBatch, setCurrentInspectedBatch] = useState({});
+  const [outputData, setOutputData] = useState({
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+
   useEffect(() => {
-    if (!isConnected) return
+    if (!isConnected) return;
     const fetchData = async () => {
       if (isConnected && isLoading) {
         const resp =
           (await getListOfItemsToInspect(setBatchesToInspect)) &&
-          (await getAllInspectedBatches(setInspectedBatches))
+          (await getAllInspectedBatches(setInspectedBatches));
         if (resp) {
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
-    }
-    fetchData()
-  }, [isLoading, isConnected])
+    };
+    fetchData();
+  }, [isLoading, isConnected]);
   useEffect(() => {
-    if (!isConnected) return
-    if (!batchesToInspect.length) return
-    if (!batchesToInspect[selectedBatch]) return
-    viewBatch(batchesToInspect[selectedBatch], setCurrentBatch, 0)
-  }, [isConnected, batchesToInspect, selectedBatch])
+    if (!isConnected) return;
+    if (!batchesToInspect.length) return;
+    if (!batchesToInspect[selectedBatch]) return;
+    viewBatch(batchesToInspect[selectedBatch], setCurrentBatch, 0);
+  }, [isConnected, batchesToInspect, selectedBatch]);
   useEffect(() => {
-    if (!isConnected) return
-    if (!inspectedBatches.length) return
-    if (!inspectedBatches[selectedInspected]) return
-    viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
-    getStatChecks(inspectedBatches[selectedInspected], setOutputData)
-  }, [isConnected, inspectedBatches, selectedInspected])
+    if (!isConnected) return;
+    if (!inspectedBatches.length) return;
+    if (!inspectedBatches[selectedInspected]) return;
+    viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1);
+    getStatChecks(inspectedBatches[selectedInspected], setOutputData);
+  }, [isConnected, inspectedBatches, selectedInspected]);
   const handleInspect = async () => {
     const resp = await inspect(
       batchesToInspect[selectedBatch],
-      ...Object.values(inspectInfo),
-    )
-    if (resp) alert('Success')
-  }
-  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
-  if (isLoading) return <div className="">Loading list of batches</div>
+      ...Object.values(inspectInfo)
+    );
+    if (resp) alert("Success");
+  };
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />;
+  if (isLoading) return <div className="">Loading list of batches</div>;
   return (
     <div className="inspector">
       {/* <button
@@ -176,7 +109,7 @@ const Inspector = () => {
               <div key={index} className="batch-single-value">
                 {n[0]} : {n[1]}
               </div>
-            )
+            );
           })}
         </div>
       )}
@@ -188,15 +121,32 @@ const Inspector = () => {
           setState={setInspectInfo}
           property={inspectInfo.name}
         /> */}
-        {Object.keys(inspectInfo).map((n, index) => (
-          <InputField
-            key={index}
-            label={n}
-            state={inspectInfo}
-            setState={setInspectInfo}
-            property={n}
-          />
-        ))}
+        {Object.keys(inspectInfo).map((n, index) => {
+          if (index < 7) {
+            return (
+              <InputField
+                placeholder="0"
+                key={index}
+                label={n}
+                state={inspectInfo}
+                setState={setInspectInfo}
+                property={n}
+              />
+            );
+          }
+          if (index === 9)
+            return (
+              <InputField
+                disable={true}
+                placeholder={sysDatetoString()}
+                key={index}
+                label="inspectedDate"
+                state={inspectInfo}
+                setState={setInspectInfo}
+                property={"inspectedDate"}
+              />
+            );
+        })}
       </div>
       <button onClick={() => handleInspect()}>Inspect</button>
       <div className="batches">
@@ -212,11 +162,17 @@ const Inspector = () => {
         <div className="supplied-stat">
           <h1>Inspected stats</h1>
           {Object.entries(currentInspectedBatch).map((n, index) => {
+            console.log(Object.entries(currentInspectedBatch));
             return (
               <div key={index} className="batch-single-value">
-                {n[0]} : {n[1]}
+                {n[0]} : {n[1]}{" "}
+                {index < 8 && index > 0 ? (
+                  <span> {`${outputData[`${n[0]}`]}`} </span>
+                ) : (
+                  ""
+                )}
               </div>
-            )
+            );
           })}
         </div>
       )}
@@ -233,9 +189,9 @@ const Inspector = () => {
       )}
       <button
         onClick={() =>
-          canvasToImage(document.getElementById('qrcode'), {
-            name: 'inspectedItemQR',
-            type: 'jpg',
+          canvasToImage(document.getElementById("qrcode"), {
+            name: "inspectedItemQR",
+            type: "jpg",
             quality: 2,
           })
         }
@@ -243,7 +199,7 @@ const Inspector = () => {
         Download
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default Inspector
+export default Inspector;
