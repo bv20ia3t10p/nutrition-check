@@ -240,3 +240,4 @@ export const getStatChecks = async (address, setOutputData) => {
     alert(e);
   }
 };
+

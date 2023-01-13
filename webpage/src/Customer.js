@@ -62,9 +62,9 @@ const Customer = () => {
   };
   if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />;
   return (
-    <div>
+    <div className="customer">
       <h1>Hello customer</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form className = "form" onSubmit={(e) => handleSubmit(e)}>
         <label htmlFor="addressInput">Enter product address</label>
         <input
           type="text"
