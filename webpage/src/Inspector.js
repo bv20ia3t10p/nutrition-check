@@ -120,7 +120,8 @@ const Inspector = () => {
           {Object.entries(currentBatch).map((n, index) => {
             return (
               <div key={index} className="batch-single-value">
-                <span class="n0">{n[0]}</span> : <div class="n1">{n[1]}</div>
+                <span className="n0">{n[0]}</span> :{' '}
+                <div className="n1">{n[1]}</div>
               </div>
             )
           })}
@@ -160,7 +161,7 @@ const Inspector = () => {
                 property={'inspectedDate'}
               />
             )
-          return <></>
+          return ''
         })}
       </div>
       <button onClick={() => handleInspect()}>Inspect</button>
@@ -186,7 +187,8 @@ const Inspector = () => {
             console.log(Object.entries(currentInspectedBatch))
             return (
               <div key={index} className="batch-single-value">
-                <span class="n0">{n[0]}</span> : <div class="n1">{n[1]}</div>
+                <span className="n0">{n[0]}</span> :{' '}
+                <div className="n1">{n[1]}</div>
                 {index < 8 && index > 0 ? (
                   <span
                     className={`${

@@ -33,26 +33,29 @@ function BatchReceiver() {
     <div className="App">
       <div className="rolename">Manager</div>
       <header className="App-header">
-        {Object.keys(batchToAdd).map((n, index) => (
-          (index<8)?(<InputField
-            type = {"text"}
-            placeholder={0}
-            key={index}
-            label={n}
-            state={batchToAdd}
-            setState={setBatchToAdd}
-            property={n}
-          />):(<InputField
-            type = {"date"}
-            placeholder={"Not specified"}
-            key={index}
-            label={n}
-            state={batchToAdd}
-            setState={setBatchToAdd}
-            property={n}
-          />)
-          
-        ))}
+        {Object.keys(batchToAdd).map((n, index) =>
+          index < 8 ? (
+            <InputField
+              type={'text'}
+              placeholder={0}
+              key={index}
+              label={n}
+              state={batchToAdd}
+              setState={setBatchToAdd}
+              property={n}
+            />
+          ) : (
+            <InputField
+              type={'date'}
+              placeholder={'Not specified'}
+              key={index}
+              label={n}
+              state={batchToAdd}
+              setState={setBatchToAdd}
+              property={n}
+            />
+          ),
+        )}
         <div className="create-batch">
           <button onClick={() => addBatch(...Object.values(batchToAdd))}>
             Create batch
