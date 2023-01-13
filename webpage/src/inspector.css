@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  .inspector > * {
+    @apply text-3xl;
+  }
+  .inspector h1 {
+    @apply text-center;
+    @apply w-full;
+    @apply text-4xl;
+    @apply mb-8;
+  }
+  .inspector {
+    @apply grid;
+    @apply grid-cols-2;
+    @apply gap-8;
+    @apply p-8;
+    @apply items-center;
+    @apply justify-center;
+  }
+  .inspector .rolename2 {
+    @apply col-span-full;
+    @apply flex;
+    @apply tracking-widest;
+    @apply w-[90vw];
+    @apply text-center;
+    @apply items-center;
+    @apply justify-center;
+  }
+  .inspector .batches {
+    @apply grid;
+    @apply grid-rows-[auto];
+    @apply grid-cols-none;
+  }
+  .inspector .batches .batch-ins {
+    @apply break-words;
+    @apply w-[40vw];
+    @apply text-center;
+  }
+  .inspector > button {
+    @apply col-span-2;
+    @apply w-[20vw];
+    @apply ml-[35vw];
+  }
+  .inspected-stat {
+    @apply col-span-full;
+    @apply grid;
+    @apply items-center;
+    @apply justify-center;
+  }
+  .inspected-stat input {
+    @apply pl-8;
+  }
+  .output {
+    @apply col-span-full;
+    @apply grid;
+    @apply items-center;
+    @apply justify-center;
+  }
+  /* .inspector .batches {
+    @apply col-start-2;
+    @apply row-start-2;
+  }
+  .inspector .batches :nth-of-type(1),
+  .inspector .supplied-stat {
+    @apply col-start-1;
+    @apply text-red-900;
+  } */
+}

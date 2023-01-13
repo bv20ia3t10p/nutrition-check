@@ -4,6 +4,7 @@ import BatchReceiver from './BatchReceiver'
 import Customer from './Customer'
 import Inspector from './Inspector'
 import Navbar from './Navbar'
+import './inspector.css'
 
 function App() {
   return (
