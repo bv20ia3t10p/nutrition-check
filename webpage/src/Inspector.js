@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   inspect,
   //   viewBatch,
@@ -9,86 +9,84 @@ import {
   getStatChecks,
   ConnectPage,
   sysDatetoString,
-} from './Function'
-import canvasToImage from 'canvas-to-image'
-import { QRCodeCanvas } from 'qrcode.react'
+} from "./Function";
+import canvasToImage from "canvas-to-image";
+import { QRCodeCanvas } from "qrcode.react";
 
 const Inspector = () => {
-  const [isConnected, setIsConnected] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [batchesToInspect, setBatchesToInspect] = useState([])
-  const [selectedBatch, setSelectedBatch] = useState([])
-  const [currentBatch, setCurrentBatch] = useState()
-  const [
-    isViewingInspectedBatchInfo,
-    setIsViewingInspectedBatchInfo,
-  ] = useState(false)
-  const [isViewingBatchInfo, setIsViewingBatchInfo] = useState(false)
+  const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [batchesToInspect, setBatchesToInspect] = useState([]);
+  const [selectedBatch, setSelectedBatch] = useState([]);
+  const [currentBatch, setCurrentBatch] = useState();
+  const [isViewingInspectedBatchInfo, setIsViewingInspectedBatchInfo] =
+    useState(false);
+  const [isViewingBatchInfo, setIsViewingBatchInfo] = useState(false);
   // const [isChangedColor, setIsChangedColor] = useState(false)
   const [inspectInfo, setInspectInfo] = useState({
-    energy: '',
-    protein: '',
-    carbohydrate: '',
-    totalSugar: '',
-    fat: '',
-    satFat: '',
-    natri: '',
-    productionDate: '',
-    expiryDate: '',
-    inspectedDate: '',
-  })
-  const [inspectedBatches, setInspectedBatches] = useState([])
-  const [selectedInspected, setSelectedInspected] = useState({})
-  const [currentInspectedBatch, setCurrentInspectedBatch] = useState({})
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [inspectedBatches, setInspectedBatches] = useState([]);
+  const [selectedInspected, setSelectedInspected] = useState({});
+  const [currentInspectedBatch, setCurrentInspectedBatch] = useState({});
   const [outputData, setOutputData] = useState({
-    energy: '',
-    protein: '',
-    carbohydrate: '',
-    totalSugar: '',
-    fat: '',
-    satFat: '',
-    natri: '',
-    productionDate: '',
-    expiryDate: '',
-    inspectedDate: '',
-  })
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
 
   useEffect(() => {
-    if (!isConnected) return
+    if (!isConnected) return;
     const fetchData = async () => {
       if (isConnected && isLoading) {
         const resp =
           (await getListOfItemsToInspect(setBatchesToInspect)) &&
-          (await getAllInspectedBatches(setInspectedBatches))
+          (await getAllInspectedBatches(setInspectedBatches));
         if (resp) {
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
-    }
-    fetchData()
-  }, [isLoading, isConnected])
+    };
+    fetchData();
+  }, [isLoading, isConnected]);
   useEffect(() => {
-    if (!isConnected) return
-    if (!batchesToInspect.length) return
-    if (!batchesToInspect[selectedBatch]) return
-    viewBatch(batchesToInspect[selectedBatch], setCurrentBatch, 0)
-  }, [isConnected, batchesToInspect, selectedBatch])
+    if (!isConnected) return;
+    if (!batchesToInspect.length) return;
+    if (!batchesToInspect[selectedBatch]) return;
+    viewBatch(batchesToInspect[selectedBatch], setCurrentBatch, 0);
+  }, [isConnected, batchesToInspect, selectedBatch]);
   useEffect(() => {
-    if (!isConnected) return
-    if (!inspectedBatches.length) return
-    if (!inspectedBatches[selectedInspected]) return
-    viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1)
-    getStatChecks(inspectedBatches[selectedInspected], setOutputData)
-  }, [isConnected, inspectedBatches, selectedInspected])
+    if (!isConnected) return;
+    if (!inspectedBatches.length) return;
+    if (!inspectedBatches[selectedInspected]) return;
+    viewBatch(inspectedBatches[selectedInspected], setCurrentInspectedBatch, 1);
+    getStatChecks(inspectedBatches[selectedInspected], setOutputData);
+  }, [isConnected, inspectedBatches, selectedInspected]);
   const handleInspect = async () => {
     const resp = await inspect(
       batchesToInspect[selectedBatch],
-      ...Object.values(inspectInfo),
-    )
-    if (resp) alert('Success')
-  }
-  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
-  if (isLoading) return <div className="">Loading list of batches</div>
+      ...Object.values(inspectInfo)
+    );
+    if (resp) alert("Success");
+  };
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />;
+  if (isLoading) return <div className="">Loading list of batches</div>;
   return (
     <div className="inspector">
       <div className="rolename2">Inspector</div>
@@ -104,10 +102,11 @@ const Inspector = () => {
         {batchesToInspect.length !== 0 &&
           batchesToInspect.map((n, index) => (
             <div
+              className="batch-ins"
               key={index}
               onClick={() => {
-                setIsViewingBatchInfo(true)
-                setSelectedBatch(index)
+                setIsViewingBatchInfo(true);
+                setSelectedBatch(index);
               }}
             >
               {n}
@@ -120,10 +119,10 @@ const Inspector = () => {
           {Object.entries(currentBatch).map((n, index) => {
             return (
               <div key={index} className="batch-single-value">
-                <span className="n0">{n[0]}</span> :{' '}
+                <span className="n0">{n[0]}</span> :{" "}
                 <div className="n1">{n[1]}</div>
               </div>
-            )
+            );
           })}
           <button onClick={() => setIsViewingBatchInfo(false)}>Close</button>
         </div>
@@ -147,7 +146,7 @@ const Inspector = () => {
                 setState={setInspectInfo}
                 property={n}
               />
-            )
+            );
           }
           if (index === 9)
             return (
@@ -158,10 +157,10 @@ const Inspector = () => {
                 label="inspectedDate"
                 state={inspectInfo}
                 setState={setInspectInfo}
-                property={'inspectedDate'}
+                property={"inspectedDate"}
               />
-            )
-          return ''
+            );
+          return "";
         })}
       </div>
       <button onClick={() => handleInspect()}>Inspect</button>
@@ -170,10 +169,11 @@ const Inspector = () => {
         {inspectedBatches.length !== 0 &&
           inspectedBatches.map((n, index) => (
             <div
+              className="batch-ins"
               key={index}
               onClick={() => {
-                setIsViewingInspectedBatchInfo(true)
-                setSelectedInspected(index)
+                setIsViewingInspectedBatchInfo(true);
+                setSelectedInspected(index);
               }}
             >
               {n}
@@ -184,27 +184,27 @@ const Inspector = () => {
         <div className="supplied-stat">
           <h1>Inspected stats</h1>
           {Object.entries(currentInspectedBatch).map((n, index) => {
-            console.log(Object.entries(currentInspectedBatch))
+            console.log(Object.entries(currentInspectedBatch));
             return (
               <div key={index} className="batch-single-value">
-                <span className="n0">{n[0]}</span> :{' '}
+                <span className="n0">{n[0]}</span> :{" "}
                 <div className="n1">{n[1]}</div>
                 {index < 8 && index > 0 ? (
                   <span
                     className={`${
-                      outputData[`${n[0]}`] === 'Alert'
-                        ? 'Red-check'
-                        : 'Blue-check'
+                      outputData[`${n[0]}`] === "Alert"
+                        ? "Red-check"
+                        : "Blue-check"
                     }`}
                   >
-                    {' '}
-                    {`${outputData[`${n[0]}`]}`}{' '}
+                    {" "}
+                    {`${outputData[`${n[0]}`]}`}{" "}
                   </span>
                 ) : (
-                  ''
+                  ""
                 )}
               </div>
-            )
+            );
           })}
         </div>
       )}
@@ -219,9 +219,9 @@ const Inspector = () => {
           />
           <button
             onClick={() =>
-              canvasToImage(document.getElementById('qrcode'), {
-                name: 'inspectedItemQR',
-                type: 'jpg',
+              canvasToImage(document.getElementById("qrcode"), {
+                name: "inspectedItemQR",
+                type: "jpg",
                 quality: 2,
               })
             }
@@ -234,7 +234,7 @@ const Inspector = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Inspector
+export default Inspector;

@@ -1,68 +1,68 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   ItemSingleInfo,
   viewBatch,
   getStatChecks,
   ConnectPage,
-} from './Function'
-import QRcodeReader from './QRcodeReader'
+} from "./Function";
+import QRcodeReader from "./QRcodeReader";
 
 const Customer = () => {
-  const [addressInput, setAddressInput] = useState('')
+  const [addressInput, setAddressInput] = useState("");
   // const [scanResult, setScanResult] = useState()
   const [suppliedStat, setSuppliedStat] = useState({
-    energy: '',
-    protein: '',
-    carbohydrate: '',
-    totalSugar: '',
-    fat: '',
-    satFat: '',
-    natri: '',
-    productionDate: '',
-    expiryDate: '',
-    inspectedDate: '',
-  })
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
   const [inspectedStat, setInspectedStat] = useState({
-    energy: '',
-    protein: '',
-    carbohydrate: '',
-    totalSugar: '',
-    fat: '',
-    satFat: '',
-    natri: '',
-    productionDate: '',
-    expiryDate: '',
-    inspectedDate: '',
-  })
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
   const [statChecks, setStatChecks] = useState({
-    energy: '',
-    protein: '',
-    carbohydrate: '',
-    totalSugar: '',
-    fat: '',
-    satFat: '',
-    natri: '',
-    productionDate: '',
-    expiryDate: '',
-    inspectedDate: '',
-  })
-  const [isConnected, setIsConnected] = useState(false)
+    energy: "",
+    protein: "",
+    carbohydrate: "",
+    totalSugar: "",
+    fat: "",
+    satFat: "",
+    natri: "",
+    productionDate: "",
+    expiryDate: "",
+    inspectedDate: "",
+  });
+  const [isConnected, setIsConnected] = useState(false);
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const _suppliedStat = viewBatch(addressInput, setSuppliedStat, 0)
-      const _inspectedStat = viewBatch(addressInput, setInspectedStat, 1)
-      const _checks = getStatChecks(addressInput, setStatChecks)
-      if (!_suppliedStat) throw new Error('Item not found')
-      setSuppliedStat(_suppliedStat)
-      if (!_inspectedStat) throw new Error('Item not inspected')
-      setInspectedStat(_inspectedStat)
-      setStatChecks(_checks)
+      const _suppliedStat = viewBatch(addressInput, setSuppliedStat, 0);
+      const _inspectedStat = viewBatch(addressInput, setInspectedStat, 1);
+      const _checks = getStatChecks(addressInput, setStatChecks);
+      if (!_suppliedStat) throw new Error("Item not found");
+      setSuppliedStat(_suppliedStat);
+      if (!_inspectedStat) throw new Error("Item not inspected");
+      setInspectedStat(_inspectedStat);
+      setStatChecks(_checks);
     } catch (e) {
-      alert(e)
+      alert(e);
     }
-  }
-  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />
+  };
+  if (!isConnected) return <ConnectPage setIsConnected={setIsConnected} />;
   return (
     <div className="customer">
       <h1>Hello customer</h1>
@@ -83,22 +83,47 @@ const Customer = () => {
       {suppliedStat.name && (
         <div className="item">
           {Object.entries(suppliedStat).map((n, index) => {
+            if (index === 10) {
+              return (
+                <div key={index}>
+                  <span className="n0">{n[0]}</span>
+
+                  {n[1] === "Not inspected" ? (
+                    <> : {n[1]}</>
+                  ) : (
+                    <> : {inspectedStat.inspectedDate}</>
+                  )}
+                </div>
+              );
+            }
             return (
               <div key={index}>
-                <span className="n0">{n[0]}</span> :{' '}
-                {index < 10 ? <div className="n1">{n[1]}</div> : ''}
+                <span className="n0">{n[0]}</span> :{" "}
+                {index < 10 ? <div className="n1">{n[1]}</div> : ""}
                 {index < 8 && index > 0 ? (
                   <div>
-                    {' '}
-                    <div className="n3">{`${inspectedStat[`${n[0]}`]}`}</div>{' '}
-                    <div className="n4">{`${statChecks[`${n[0]}`]}`}</div>{' '}
+                    {" "}
+                    {inspectedStat.name !== "" && (
+                      <>
+                        <div className="n3">
+                          {`${inspectedStat[`${n[0]}`]}`}{" "}
+                        </div>
+                        <div
+                          className={`${
+                            statChecks[`${n[0]}`] === "Alert"
+                              ? "n4 Red-check"
+                              : "n4 Blue-check"
+                          }`}
+                        >{`${statChecks[`${n[0]}`]}`}</div>
+                      </>
+                    )}
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
-                {index === 10 ? <div>{`${inspectedStat[`${n[0]}`]}`}</div> : ''}
+                {/* {index === 10 ? <div>{`${inspectedStat[`${n[0]}`]}`}</div> : ""} */}
               </div>
-            )
+            );
           })}
         </div>
       )}
@@ -115,7 +140,7 @@ const Customer = () => {
         </div>
       )} */}
     </div>
-  )
-}
+  );
+};
 
-export default Customer
+export default Customer;

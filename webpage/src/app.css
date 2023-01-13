@@ -247,3 +247,20 @@ button:hover{
 .tab-item.selected {
   opacity: 0.7;
 }
+
+.batches .batch-ins{
+  cursor: pointer;
+}
+
+.batches .batch-ins:hover{
+color: #3a86ff;
+}
+
+.batches .uninspected >div{
+  cursor: pointer;
+}
+
+.batches .uninspected >div:hover{
+  color: #3a86ff;
+
+}
