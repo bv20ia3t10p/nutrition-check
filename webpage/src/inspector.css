@@ -49,14 +49,24 @@
     @apply items-center;
     @apply justify-center;
   }
-  .inspected-stat input {
-    @apply pl-8;
+  input {
+    @apply px-8;
+    /* @apply pl-16; */
+    @apply ml-12;
   }
   .output {
     @apply col-span-full;
     @apply grid;
     @apply items-center;
     @apply justify-center;
+  }
+  button {
+    @apply p-4;
+    @apply px-8;
+    @apply bg-[#ced4da];
+  }
+  .customer .item .n0 {
+    @apply mr-8;
   }
   /* .inspector .batches {
     @apply col-start-2;

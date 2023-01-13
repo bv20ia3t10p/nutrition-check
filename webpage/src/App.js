@@ -1,10 +1,10 @@
-import './app.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import BatchReceiver from './BatchReceiver'
 import Customer from './Customer'
 import Inspector from './Inspector'
 import Navbar from './Navbar'
 import './inspector.css'
+import './app.css'
 
 function App() {
   return (

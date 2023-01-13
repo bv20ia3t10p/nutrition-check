@@ -11,5 +11,12 @@ module.exports = {
       ],
       chainId: 1337,
     },
+    goerli: {
+      url: 'https://rpc.ankr.com/eth_goerli',
+      chainId: 5,
+      accounts: [
+        '9293a4bf706c7971da58318470aff4fc2b099538c63e145593d73c7c33624925',
+      ],
+    },
   },
 }

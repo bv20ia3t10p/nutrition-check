@@ -47,12 +47,12 @@
     @apply h-[90vh];
     padding-left: 90px;
   }
-  
+
   .content > * {
     font-size: 50px;
   }
 
-  .content > * > form{
+  .content > * > form {
     padding-bottom: 60px;
   }
 
@@ -64,16 +64,16 @@
     @apply shadow-xl;
   }
 
-  .create-batch{
+  .create-batch {
     display: inline-block;
     margin-left: -3%;
   }
 
-  .view-batch{
+  .view-batch {
     display: inline-block;
   }
 
-  .name-space{
+  .name-space {
     display: inline-block;
     width: 350px;
   }
@@ -98,16 +98,13 @@
     display: inline-block;
   }
 
-  .content > div > div > div > div{
+  .content > div > div > div > div {
     display: inline-flex;
   }
 
-
   .content > div > form > input {
-    width: 1200px
+    width: 1200px;
   }
-
-
 
   .content > div > form > button {
     @apply shadow-xl;
@@ -118,10 +115,10 @@
     -moz-border-radius: 50px;
     -ms-border-radius: 50px;
     -o-border-radius: 50px;
-    border: .5px solid rgb(0, 0, 0, 30%);
-}
+    border: 0.5px solid rgb(0, 0, 0, 30%);
+  }
 
-  .content > div > form > button:hover{
+  .content > div > form > button:hover {
     color: #fff;
     background-color: rgba(19, 59, 123, 0.5);
   }
@@ -163,10 +160,10 @@
     @apply tracking-widest;
   }
   input {
-    @applybg-blue-100:;
-    @applyborder-2:;
-    @applyborder-blue-500:;
-    @applytext-indigo-900:;
+    @applybg-blue-100: ;
+    @applyborder-2: ;
+    @applyborder-blue-500: ;
+    @applytext-indigo-900: ;
     border: 1px solid black;
     border-radius: 50px;
     -webkit-border-radius: 50px;
@@ -174,12 +171,11 @@
     -ms-border-radius: 50px;
     -o-border-radius: 50px;
     padding: 0px 30px;
-}
-
+  }
 }
 
 button {
-  @applyshadow-xl:;
+  @applyshadow-xl: ;
   background-color: #ced4da;
   margin-left: 20px;
   border-radius: 90px;
@@ -187,29 +183,28 @@ button {
   -moz-border-radius: 90px;
   -ms-border-radius: 90px;
   -o-border-radius: 90px;
-  border: .5px solid rgb(0, 0, 0, 30%);
+  border: 0.5px solid rgb(0, 0, 0, 30%);
   padding: 15px 20px;
 }
 
-
-button:hover{
+button:hover {
   color: rgb(62, 57, 57);
   opacity: 95%;
 }
 
-.input-field{
+.input-field {
   padding: 15px 30px;
 }
 
-.rolename{
+.rolename {
   font-size: 50px;
   font-weight: 700;
   margin-top: -5%;
   padding-left: 4%;
-  color:red;
+  color: red;
 }
 
-.rolename2{
+.rolename2 {
   font-size: 50px;
   font-weight: 700;
   margin-top: -5%;
@@ -217,50 +212,68 @@ button:hover{
   color: red;
 }
 
-.Red-check{
+.Red-check {
   color: red;
 }
 
-.Blue-check{
+.Blue-check {
   color: green;
 }
 
-.content> div >div > h1 {
+.content > div > div > h1 {
   font-weight: 700;
 }
+.tab-item.selected {
+  @apply text-sky-50;
 
+  @apply bg-sky-500;
+}
 .navbar .line {
   position: absolute;
+
   left: 0;
+
   bottom: 0;
+
   width: 0;
+
   height: 6px;
+
   border-radius: 15px;
-  background-color: #3a86ff;
+
+  /* background-color: #3a86ff; */
+
   transition: all 0.2s ease;
+
+  @apply bg-sky-200;
 }
 
 .navbar .tab-item:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .tab-item.selected {
-  opacity: 0.7;
+  @apply text-sky-50;
+
+  @apply bg-sky-500;
 }
 
-.batches .batch-ins{
+.navbar > a {
+  @apply shadow-inner;
+}
+
+.batches .batch-ins {
   cursor: pointer;
 }
 
-.batches .batch-ins:hover{
-color: #3a86ff;
-}
-
-.batches .uninspected >div{
-  cursor: pointer;
-}
-
-.batches .uninspected >div:hover{
+.batches .batch-ins:hover {
   color: #3a86ff;
+}
 
+.batches .uninspected > div {
+  cursor: pointer;
+}
+
+.batches .uninspected > div:hover {
+  color: #3a86ff;
 }
