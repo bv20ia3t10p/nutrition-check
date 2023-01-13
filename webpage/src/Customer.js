@@ -83,15 +83,16 @@ const Customer = () => {
           {Object.entries(suppliedStat).map((n, index) => {
             return (
               <div key={index}>
-                {n[0]} : {n[1]}{" "}
+                <span class="n0">{n[0]}</span> : {index < 10 ? (<div class="n1">{n[1]}</div>) : ("")}
                 {index < 8 && index > 0 ? (
-                  <span>
+                  <div>
                     {" "}
-                    {`${inspectedStat[`${n[0]}`]}`} {`${statChecks[`${n[0]}`]}`}{" "}
-                  </span>
+                    <div class="n3">{`${inspectedStat[`${n[0]}`]}`}</div> <div class="n4">{`${statChecks[`${n[0]}`]}`}</div>{" "}
+                  </div>
                 ) : (
                   ""
                 )}
+                {index === 10 ? (<div>{`${inspectedStat[`${n[0]}`]}`}</div>):("")}
               </div>
             );
           })}

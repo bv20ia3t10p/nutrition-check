@@ -86,6 +86,8 @@ const Inspector = () => {
   if (isLoading) return <div className="">Loading list of batches</div>;
   return (
     <div className="inspector">
+      <div className="rolename2">Inspector</div>
+
       {/* <button
         onClick={() => setIsChangedColor(!isChangedColor)}
         className={`${isChangedColor ? 'green-btn' : 'blue-button'}`}
@@ -94,7 +96,7 @@ const Inspector = () => {
       </button> */}
       <div className="batches">
         <h1>Batches to inspect</h1>
-        {batchesToInspect.length &&
+        {batchesToInspect.length !== 0 &&
           batchesToInspect.map((n, index) => (
             <div key={index} onClick={() => setSelectedBatch(index)}>
               {n}
@@ -107,7 +109,7 @@ const Inspector = () => {
           {Object.entries(currentBatch).map((n, index) => {
             return (
               <div key={index} className="batch-single-value">
-                {n[0]} : {n[1]}
+                <span class="n0">{n[0]}</span> : <div class="n1">{n[1]}</div>
               </div>
             );
           })}
@@ -151,7 +153,7 @@ const Inspector = () => {
       <button onClick={() => handleInspect()}>Inspect</button>
       <div className="batches">
         <h1>Inspected batches</h1>
-        {inspectedBatches.length &&
+        {inspectedBatches.length !== 0 &&
           inspectedBatches.map((n, index) => (
             <div key={index} onClick={() => setSelectedInspected(index)}>
               {n}
@@ -165,7 +167,7 @@ const Inspector = () => {
             console.log(Object.entries(currentInspectedBatch));
             return (
               <div key={index} className="batch-single-value">
-                {n[0]} : {n[1]}{" "}
+                <span class="n0">{n[0]}</span> : <div class="n1">{n[1]}</div>
                 {index < 8 && index > 0 ? (
                   <span> {`${outputData[`${n[0]}`]}`} </span>
                 ) : (
@@ -176,7 +178,7 @@ const Inspector = () => {
           })}
         </div>
       )}
-      {outputData && (
+      {outputData.name && (
         <div className="output">
           <QRCodeCanvas
             // includeMargin={true}
@@ -185,19 +187,19 @@ const Inspector = () => {
             // level="H"
             size={300}
           />
+          <button
+            onClick={() =>
+              canvasToImage(document.getElementById("qrcode"), {
+                name: "inspectedItemQR",
+                type: "jpg",
+                quality: 2,
+              })
+            }
+          >
+            Download
+          </button>
         </div>
       )}
-      <button
-        onClick={() =>
-          canvasToImage(document.getElementById("qrcode"), {
-            name: "inspectedItemQR",
-            type: "jpg",
-            quality: 2,
-          })
-        }
-      >
-        Download
-      </button>
     </div>
   );
 };

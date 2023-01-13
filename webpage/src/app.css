@@ -42,12 +42,98 @@
     @apply text-4xl;
   }
   .content {
-    @apply pt-[10vh];
+    padding-top: 250px;
     @apply flex;
-    @apply items-center;
-    @apply justify-center;
     @apply h-[90vh];
+    padding-left: 90px;
   }
+  
+  .content > * {
+    font-size: 50px;
+  }
+
+  .content > * > form{
+    padding-bottom: 60px;
+  }
+
+  .content > * > .item {
+    border: 1px solid #333;
+    border-radius: 30px;
+    margin-left: 25%;
+    width: 65%;
+    @apply shadow-xl;
+  }
+
+  .create-batch{
+    display: inline-block;
+    margin-left: -3%;
+  }
+
+  .view-batch{
+    display: inline-block;
+  }
+
+  .name-space{
+    display: inline-block;
+    width: 350px;
+  }
+
+  .content > div > h1 {
+    padding-left: 40px;
+    font-weight: 700;
+  }
+
+  .content > div > div > div > .n0 {
+    width: 330px;
+    display: inline-block;
+  }
+
+  .content > div > div > div > .n1 {
+    width: 330px;
+    display: inline-block;
+  }
+
+  .content > div > div > div > div > .n3 {
+    width: 330px;
+    display: inline-block;
+  }
+
+  .content > div > div > div > div{
+    display: inline-flex;
+  }
+
+
+  .content > div > form > input {
+    width: 1200px
+  }
+
+
+
+  .content > div > form > button {
+    @apply shadow-xl;
+    background-color: #ced4da;
+    margin-left: 20px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    border: .5px solid rgb(0, 0, 0, 30%);
+}
+
+  .content > div > form > button:hover{
+    color: #fff;
+    background-color: rgba(19, 59, 123, 0.5);
+  }
+
+  .content > * > * {
+    padding: 10px;
+  }
+
+  .content > * > * > * {
+    padding: 10px 30px;
+  }
+
   .Connect {
     @apply bg-blue-500;
     @apply w-[60vw];
@@ -60,6 +146,7 @@
     @apply p-20;
     @apply items-center;
     @apply justify-center;
+    margin-left: 400px;
   }
   .Connect h1 {
     @apply text-3xl;
@@ -76,14 +163,60 @@
     @apply tracking-widest;
   }
   input {
-    @apply bg-blue-100;
-    @apply border-2;
-    @apply border-blue-500;
-    @apply text-indigo-900;
-  }
+    @applybg-blue-100:;
+    @applyborder-2:;
+    @applyborder-blue-500:;
+    @applytext-indigo-900:;
+    border: 1px solid black;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+    padding: 0px 30px;
+}
+
 }
 
 button {
-  background-color: aqua;
-  border-radius: 30%;
+  @applyshadow-xl:;
+  background-color: #ced4da;
+  margin-left: 20px;
+  border-radius: 90px;
+  -webkit-border-radius: 90px;
+  -moz-border-radius: 90px;
+  -ms-border-radius: 90px;
+  -o-border-radius: 90px;
+  border: .5px solid rgb(0, 0, 0, 30%);
+  padding: 15px 20px;
+}
+
+
+button:hover{
+  color: rgb(62, 57, 57);
+  opacity: 95%;
+}
+
+.input-field{
+  padding: 15px 30px;
+}
+
+.rolename{
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: -5%;
+  padding-left: 4%;
+  color:red;
+}
+
+.rolename2{
+  font-size: 50px;
+  font-weight: 700;
+  margin-top: -5%;
+  padding-left: 3%;
+  color: red;
+}
+
+.content> div >div > h1 {
+  font-weight: 700;
 }
