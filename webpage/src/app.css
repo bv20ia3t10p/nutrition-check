@@ -217,6 +217,14 @@ button:hover{
   color: red;
 }
 
+.Red-check{
+  color: red;
+}
+
+.Blue-check{
+  color: green;
+}
+
 .content> div >div > h1 {
   font-weight: 700;
 }
