@@ -143,6 +143,7 @@ export const InputField = ({
   label,
   state,
   setState,
+  type,
   property,
 }) => {
   return (
@@ -150,8 +151,8 @@ export const InputField = ({
       <div className="name-space">{label}: </div>
       <input
         disabled={disable}
+        type={type}
         placeholder={placeholder}
-        type="text"
         value={state[`${property}`]}
         onChange={(e) =>
           setState({ ...state, [`${property}`]: e.target.value })
