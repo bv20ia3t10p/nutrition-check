@@ -103,6 +103,7 @@ function BatchReceiver() {
                           setCurrentBatch,
                           0,
                         )
+                        setCurrentBatch({ ...currentBatch, address: n })
                       }}
                       key={index}
                     >
