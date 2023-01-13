@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import './app.css'
 import { Tabs } from './scripts'
 
 const Navbar = () => {
-  useEffect(() => {
+  useEffect(() =>{
     Tabs()
   }, [])
   return (
-    <div
-      className="navbar"
-      // onClick = {Tabs}
-    >
+    <div className="navbar">
       <span className="title">Nutrition check</span>
       <Link className="tab-item selected" to="/">
         Customer
