@@ -16,10 +16,10 @@
 + npm install
 #### *Unnecessary unless changes to either .sol files are made*
 + (command) npm hardhat compile
-+ Navigate to newly created artifacts ('nutrition-check/artifacts/') folder created by hardhat, look into folders containing '.sol' in their names, open the respective .json file (without .dbg extension), take the ABI and paste it into respective 'nutrition-check/webpage/src/contractInfo.js'
++ Navigate to newly created artifacts ('nutrition-check/artifacts/') folder created by hardhat, look into folders containing '.sol' in their names, open the respective .json file (without .dbg extension), take the ABI and paste it into respective variables in 'nutrition-check/webpage/src/contractInfo.js'
 #### Deploying contract (Select one from two of the following)
 + ganache: (command) npm hardhat run scripts/deploy.js --network ganache
-+ goerli: (command) npm hardhat run sccripts/deploy.js --network goerli
++ goerli: (command) npm hardhat run scripts/deploy.js --network goerli
 #### Modifying 'nutrition-check/webpage/src/contractInfo.js'
 + Replace the value of the 'ins' variable in the file with newly returned address in the console
 #### Deploying the webpage
